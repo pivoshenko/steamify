@@ -1,0 +1,152 @@
+[project]
+authors = [{ "name" = "Volodymyr Pivoshenko", "email" = "volodymyr.pivoshenko@gmail.com" }]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Environment :: Other Environment",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Information Technology",
+  "License :: OSI Approved :: MIT License",
+  "Natural Language :: English",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Scientific/Engineering",
+  "Topic :: Software Development",
+  "Topic :: Software Development :: Libraries",
+  "Topic :: Software Development :: Libraries :: Python Modules"
+]
+dependencies = []
+description = "A lightweight package for converting Markdown into Steam-compatible markup."
+keywords = [
+  "bbcode",
+  "converter",
+  "formatter",
+  "gaming",
+  "ihroteka",
+  "markdown",
+  "markup",
+  "parser",
+  "steam",
+  "steam-bbcode",
+  "steam-bbcode-converter",
+  "steam-workshop",
+  "text-processing"
+]
+license = "MIT"
+maintainers = [{ "name" = "Volodymyr Pivoshenko", "email" = "volodymyr.pivoshenko@gmail.com" }]
+name = "ihroteka-converter"
+readme = "README.md"
+requires-python = ">=3.10"
+version = "0.0.1"
+
+[project.urls]
+Homepage = "https://github.com/pivoshenko/ihroteka-converter"
+Repository = "https://github.com/pivoshenko/ihroteka-converter"
+
+[build-system]
+build-backend = "hatchling.build"
+requires = ["hatchling"]
+
+[dependency-groups]
+ci = ["python-semantic-release~=10.4.1"]
+dev = ["poethepoet>=0.37.0"]
+formatters = ["pyupgrade>=3.21.0", "ruff>=0.14.3"]
+linters = ["commitizen>=4.9.1", "mypy>=1.18.2", "ruff>=0.14.3"]
+notebooks = ["jupyter>=1.1.1"]
+tests = [
+  "coverage[toml]>=7.11.0",
+  "pytest==7.4.4",
+  "pytest-cov>=7.0.0",
+  "pytest-lazy-fixture>=0.6.3",
+  "pytest-mock>=3.15.1",
+  "pytest-sugar>=1.1.1"
+]
+
+[tool.commitizen]
+allowed_prefixes = ["0", "1", "2", "Initial", "Merge"]
+
+[tool.coverage.run]
+omit = ["*/__init__.py"]
+
+[tool.mypy]
+exclude = ["tests/"]
+namespace_packages = true
+show_error_codes = true
+strict = true
+warn_unused_configs = true
+
+[tool.poe.tasks.tests]
+help = "Run tests"
+shell = "uv run pytest ."
+
+[tool.pytest.ini_options]
+addopts = [
+  "--basetemp=tests/fixtures",
+  "--color=yes",
+  "--cov=src",
+  "--cov-report=html",
+  "--cov-report=term-missing",
+  "--cov-report=xml"
+]
+testpaths = ["tests"]
+
+[tool.ruff]
+fix = true
+line-length = 100
+target-version = "py313"
+unsafe-fixes = true
+
+[tool.ruff.format]
+docstring-code-format = true
+quote-style = "double"
+
+[tool.ruff.lint]
+ignore = ["D102", "D103", "D203", "D212"]
+select = ["ALL"]
+
+[tool.ruff.lint.isort]
+force-single-line = true
+from-first = false
+length-sort-straight = true
+lines-after-imports = 2
+lines-between-types = 1
+required-imports = ["from __future__ import annotations"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*.py" = ["INP001", "S101"]
+
+[tool.semantic_release]
+changelog_file = "CHANGELOG.md"
+commit_author = "github-actions <github-actions@github.com>"
+exclude_commit_patterns = ["Merge pull request"]
+logging_use_named_masks = true
+version_toml = ["pyproject.toml:project.version"]
+version_variables = ["src/ihroteka_converter/__init__.py:__version__"]
+
+[tool.semantic_release.changelog]
+exclude_commit_patterns = ['''Merged? .*''', '''Initial Commit.*''', '''^\d+\.\d+\.\d+''']
+
+[tool.semantic_release.commit_parser_options]
+major_tags = ["feat"]
+minor_tags = ["fix", "perf", "refactor"]
+patch_tags = ["docs", "style"]
+
+[tool.poe.tasks.format]
+help = "Run formatters"
+sequence = [
+  { shell = "find src -type f -name '*.py' | xargs uv run pyupgrade --py313-plus", help = "Run annotations formatter" },
+  { shell = "find tests -type f -name '*.py' | xargs uv run pyupgrade --py313-plus", help = "Run annotations formatter" },
+  { shell = "uv run ruff format .", help = "Run code formatter" }
+]
+
+[tool.poe.tasks.lint]
+help = "Run linters"
+sequence = [
+  { shell = "uv run mypy .", help = "Run types linter" },
+  { shell = "uv run ruff check .", help = "Run code linter" },
+  { shell = "uv run cz check --rev-range .", help = "Run commits linter" }
+]
