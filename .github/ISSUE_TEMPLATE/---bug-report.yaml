@@ -1,0 +1,55 @@
+name: Bug Report
+labels: ["type: bug"]
+description: Create a report to help us improve
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to file a complete bug report.
+        Before submitting your issue, please review [the contribution guidelines](https://github.com/pivoshenko/ihroteka-converter/blob/main/CONTRIBUTING.md).
+        Feel free to use Markdown syntax in text areas.
+
+  - type: textarea
+    attributes:
+      label: Description
+      description: |
+        Please describe what happened, with as much pertinent information as possible.
+        If applicable, add screenshots to help explain your problem.
+        Also, ensure that the feature is not already implemented in the [latest](https://github.com/pivoshenko/ihroteka-converter/releases/latest) release.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Workarounds
+      description: |
+        Is there a mitigation or workaround that allows users to avoid the issue for now?
+    validations:
+      required: true
+
+  - type: input
+    attributes:
+      label: Operating System
+      description: |
+        What operating system are you using?
+      placeholder: "Fedora 39"
+    validations:
+      required: true
+
+  - type: input
+    attributes:
+      label: ihroteka-converter version
+      description: |
+        Please attach the output from `uv pip show ihroteka-converter`
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Example pyproject.toml
+      description: |
+        Please provide an example `pyproject.toml` demonstrating the issue.
+      render: TOML
+    validations:
+      required: false

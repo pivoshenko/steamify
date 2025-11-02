@@ -1,0 +1,41 @@
+name: Documentation Issue
+labels: ["type: documentation"]
+description: Did you find errors, omissions, or anything unclear in the documentation?
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to file a complete documentation issue.
+        Before submitting your issue, please review [the contribution guidelines](https://github.com/pivoshenko/ihroteka-converter/blob/main/CONTRIBUTING.md).
+        Feel free to use Markdown syntax in the text areas.
+
+  - type: dropdown
+    attributes:
+      label: Issue Type
+      description: |
+        What best describes the documentation issue?
+      options:
+        - Documentation needs improvement
+        - Documentation is missing
+        - Error in existing documentation
+        - Documentation is unclear
+        - Other documentation concern
+    validations:
+      required: true
+
+  - type: input
+    attributes:
+      label: Existing Documentation Link
+      description: |
+        If the documentation in question exists, please provide a link to it.
+    validations:
+      required: false
+
+  - type: textarea
+    attributes:
+      label: Description
+      description: |
+        Please describe the issue with as much relevant detail as possible.
+    validations:
+      required: true
