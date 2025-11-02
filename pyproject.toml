@@ -41,7 +41,7 @@ maintainers = [{ "name" = "Volodymyr Pivoshenko", "email" = "volodymyr.pivoshenk
 name = "ihroteka-converter"
 readme = "README.md"
 requires-python = ">=3.10"
-version = "1.0.0"
+version = "1.1.0"
 
 [project.urls]
 Homepage = "https://github.com/pivoshenko/ihroteka-converter"
