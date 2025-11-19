@@ -54,11 +54,11 @@ requires = ["hatchling"]
 [dependency-groups]
 ci = ["python-semantic-release~=10.5.2"]
 dev = ["poethepoet>=0.37.0"]
-formatters = ["pyupgrade>=3.21.1", "ruff>=0.14.5"]
+formatters = ["pyupgrade>=3.21.2", "ruff>=0.14.5"]
 linters = ["commitizen>=4.10.0", "mypy>=1.18.2", "ruff>=0.14.5"]
 notebooks = ["jupyter>=1.1.1"]
 tests = [
-  "coverage[toml]>=7.11.3",
+  "coverage[toml]>=7.12.0",
   "pytest==7.4.4",
   "pytest-cov>=7.0.0",
   "pytest-lazy-fixture>=0.6.3",
@@ -101,7 +101,7 @@ docstring-code-format = true
 quote-style = "double"
 
 [tool.ruff.lint]
-ignore = ["D102", "D103", "D203", "D212"]
+ignore = ["COM812", "D102", "D103", "D203", "D212"]
 select = ["ALL"]
 
 [tool.ruff.lint.isort]
