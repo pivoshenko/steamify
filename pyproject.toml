@@ -52,10 +52,10 @@ build-backend = "hatchling.build"
 requires = ["hatchling"]
 
 [dependency-groups]
-ci = ["python-semantic-release~=10.5.2"]
+ci = ["python-semantic-release~=10.5.3"]
 dev = ["poethepoet>=0.38.0"]
-formatters = ["pyupgrade>=3.21.2", "ruff>=0.14.8"]
-linters = ["commitizen>=4.10.0", "mypy>=1.19.0", "ruff>=0.14.8"]
+formatters = ["pyupgrade>=3.21.2", "ruff>=0.14.9"]
+linters = ["commitizen>=4.10.1", "mypy>=1.19.1", "ruff>=0.14.9"]
 notebooks = ["jupyter>=1.1.1"]
 tests = [
   "coverage[toml]>=7.13.0",

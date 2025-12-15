@@ -62,6 +62,11 @@
 
 A lightweight package for converting Markdown into Steam-compatible markup.
 
+**About the name**
+
+*Ihroteka* (pronounced [ee-hroh-teh-kah]) is a Ukrainian word formed from "hra" (game) and "teka" (a place of keeping, an archive).
+It evokes the image of a living library of games - a space where experiences are gathered, preserved, and given structure.
+
 ## Installation
 
 Proceed by installing the tool and running it:
