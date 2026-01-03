@@ -55,7 +55,7 @@ requires = ["hatchling"]
 ci = ["python-semantic-release~=10.5.3"]
 dev = ["poethepoet>=0.39.0"]
 formatters = ["pyupgrade>=3.21.2", "ruff>=0.14.10"]
-linters = ["commitizen>=4.10.1", "mypy>=1.19.1", "ruff>=0.14.10"]
+linters = ["commitizen>=4.11.0", "mypy>=1.19.1", "ruff>=0.14.10"]
 notebooks = ["jupyter>=1.1.1"]
 tests = [
   "coverage[toml]>=7.13.1",
