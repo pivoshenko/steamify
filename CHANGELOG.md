@@ -2,6 +2,27 @@
 
 <!-- version list -->
 
+## v1.1.2 (2026-01-10)
+
+### Build System
+
+- Update dev dependencies
+  ([`c458ccc`](https://github.com/pivoshenko/ihroteka-converter/commit/c458cccfeefc4bdc81a2dad952661284c5e86dd7))
+
+- Update dev dependencies
+  ([`da32f10`](https://github.com/pivoshenko/ihroteka-converter/commit/da32f108986c2c8a120c7f19d562c5a917463b83))
+
+### Continuous Integration
+
+- Upgrade actions
+  ([`3967572`](https://github.com/pivoshenko/ihroteka-converter/commit/3967572798a01f601c625cf67af75288f7b23b17))
+
+### Documentation
+
+- Update license
+  ([`95e1516`](https://github.com/pivoshenko/ihroteka-converter/commit/95e1516e623b57d1a788c0f81dfc8948f77e94bd))
+
+
 ## v1.1.1 (2025-12-15)
 
 ### Build System

@@ -5,5 +5,5 @@ from __future__ import annotations
 from ihroteka_converter.__main__ import convert
 
 
-__version__ = "1.1.1"
+__version__ = "1.1.2"
 __all__ = ["convert"]
