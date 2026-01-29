@@ -324,7 +324,7 @@ def _convert_inline_code_spans(text: str) -> tuple[str, list[str]]:
     """Convert inline code spans: ``code`` -> @@CODE{index}@@."""
     code_spans: list[str] = []
 
-    def code_span_repl(match: re.Match) -> str:  # type: ignore[type-arg]
+    def code_span_repl(match: re.Match) -> str:
         code_content = match.group(1)
         code_spans.append(code_content)
         return f"@@CODE{len(code_spans) - 1}@@"
@@ -346,7 +346,7 @@ def _convert_inline_italic(text: str) -> str:
 def _convert_inline_links(text: str) -> str:
     """Convert inline links: [text](URL) -> [url=URL]text[/url]."""
 
-    def link_repl(match: re.Match) -> str:  # type: ignore[type-arg]
+    def link_repl(match: re.Match) -> str:
         link_text = match.group(1)
         url = match.group(2)
         return f"[url={url}]{link_text}[/url]"
@@ -362,7 +362,7 @@ def _convert_inline_strikethrough(text: str) -> str:
 def _render_inline_code_spans(text: str, code_spans: list[str]) -> str:
     """Render inline code spans: @@CODE{index}@@ -> [code]code[/code]."""
 
-    def render_repl(match: re.Match) -> str:  # type: ignore[type-arg]
+    def render_repl(match: re.Match) -> str:
         idx = int(match.group(1))
         return f"[code]{code_spans[idx]}[/code]"
 
