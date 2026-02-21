@@ -53,16 +53,16 @@ requires = ["hatchling"]
 
 [dependency-groups]
 ci = ["python-semantic-release~=10.5.3"]
-dev = ["poethepoet>=0.40.0"]
-formatters = ["pyupgrade>=3.21.2", "ruff>=0.14.14"]
+dev = ["poethepoet>=0.41.0"]
+formatters = ["pyupgrade>=3.21.2", "ruff>=0.15.2"]
 linters = [
-    "commitizen>=4.12.1",
-    "ruff>=0.14.14",
-    "ty>=0.0.14",
+    "commitizen>=4.13.8",
+    "ruff>=0.15.2",
+    "ty>=0.0.18",
 ]
 notebooks = ["jupyter>=1.1.1"]
 tests = [
-  "coverage[toml]>=7.13.2",
+  "coverage[toml]>=7.13.4",
   "pytest==7.4.4",
   "pytest-cov>=7.0.0",
   "pytest-lazy-fixture>=0.6.3",
