@@ -1,3 +1,5 @@
+# Ihroteka Converter
+
 <p align="center">
   <a href="https://opensource.org/licenses/MIT">
     <img alt="License" src="https://img.shields.io/pypi/l/ihroteka-converter?style=flat-square&logo=opensourceinitiative&logoColor=white&color=0A6847&label=License">
@@ -57,6 +59,11 @@
     <img alt="StandWithUkraine" src="https://img.shields.io/badge/Support-Ukraine-FFC93C?style=flat-square&labelColor=07689F">
   </a>
 </p>
+
+- [Ihroteka Converter](#ihroteka-converter)
+  - [Overview](#overview)
+  - [Installation](#installation)
+  - [Examples](#examples)
 
 ## Overview
 
