@@ -2,6 +2,14 @@
 
 <!-- version list -->
 
+## v1.2.0 (2026-03-08)
+
+### Bug Fixes
+
+- Update metadata
+  ([`e84766f`](https://github.com/pivoshenko/ihroteka-converter/commit/e84766fa3cd043fce830e0ed9778cb354fc63f8b))
+
+
 ## v1.1.3 (2026-03-07)
 
 ### Build System
