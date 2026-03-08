@@ -1,5 +1,5 @@
 [project]
-authors = [{ "name" = "Volodymyr Pivoshenko", "email" = "volodymyr.pivoshenko@gmail.com" }]
+authors = [{ "name" = "Volodymyr Pivoshenko", "email" = "contact@pivoshenko.dev" }]
 classifiers = [
   "Development Status :: 5 - Production/Stable",
   "Environment :: Other Environment",
@@ -37,7 +37,7 @@ keywords = [
   "text-processing"
 ]
 license = "MIT"
-maintainers = [{ "name" = "Volodymyr Pivoshenko", "email" = "volodymyr.pivoshenko@gmail.com" }]
+maintainers = [{ "name" = "Volodymyr Pivoshenko", "email" = "contact@pivoshenko.dev" }]
 name = "ihroteka-converter"
 readme = "README.md"
 requires-python = ">=3.10"
