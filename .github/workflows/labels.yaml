@@ -1,7 +1,7 @@
 # Requires GitHub secrets
 # - GH_TOKEN
 
-name: Update GitHub Labels
+name: Update Labels
 
 on:
   push:
@@ -12,7 +12,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  labels:
+  update-labels:
+    name: Update Labels
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
