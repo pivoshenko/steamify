@@ -2,6 +2,48 @@
 
 <!-- version list -->
 
+## v1.2.1 (2026-03-29)
+
+### Build System
+
+- Remove unused pytest-lazy-fixture, upgrade pytest
+  ([`58d024b`](https://github.com/pivoshenko/ihroteka-converter/commit/58d024b1d075fc34bd6e397f3c26faa31fb35740))
+
+- Replace poethepoet with just
+  ([`1bb3530`](https://github.com/pivoshenko/ihroteka-converter/commit/1bb3530f1fec29cfba31b941c326eef0dd63a3cf))
+
+- Update dependencies
+  ([`f4f2ad7`](https://github.com/pivoshenko/ihroteka-converter/commit/f4f2ad7bbc6968530198ead8dde60f1c5e4e4822))
+
+- Update dependency specifications
+  ([`52cc04d`](https://github.com/pivoshenko/ihroteka-converter/commit/52cc04d0afba9f62d4b7b62f628dd583be50ece3))
+
+- Update dev dependencies
+  ([`c6d3bcf`](https://github.com/pivoshenko/ihroteka-converter/commit/c6d3bcfb03b740359116fc326f1ce6630052aecd))
+
+- **deps**: Bump tornado from 6.5.4 to 6.5.5
+  ([`6f4d55d`](https://github.com/pivoshenko/ihroteka-converter/commit/6f4d55deab9f32e0ff6f1ca2d58b3ee115729f72))
+
+### Continuous Integration
+
+- Add workflow_dispatch to labels, remove dependabot
+  ([`24275e9`](https://github.com/pivoshenko/ihroteka-converter/commit/24275e96d60188ef50d2b5efd731776a2ded0cfe))
+
+- Consolidate linters and tests into unified CI workflow
+  ([`8f41035`](https://github.com/pivoshenko/ihroteka-converter/commit/8f41035e2a1ec32b6f210c5012e93edc5efa24f0))
+
+- Migrate release to workflow_dispatch with version override
+  ([`93a4a03`](https://github.com/pivoshenko/ihroteka-converter/commit/93a4a0352299ac3f385f04e5827bc95b763c5670))
+
+### Documentation
+
+- Add CLAUDE.md
+  ([`67b6eeb`](https://github.com/pivoshenko/ihroteka-converter/commit/67b6eebae2962bbc4cdc1f6553d4c86a423d7f72))
+
+- Update badges
+  ([`24512b7`](https://github.com/pivoshenko/ihroteka-converter/commit/24512b7c47ca7a7ccaaa5573c1773b5fb3a6c7e7))
+
+
 ## v1.2.0 (2026-03-08)
 
 ### Bug Fixes
