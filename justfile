@@ -10,3 +10,7 @@ lint:
 
 test:
   uv run pytest .
+
+update:
+  uv lock --upgrade
+  uvx uv-upsync

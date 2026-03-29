@@ -8,6 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 just lint       # ty check + ruff check + commitizen commit lint
 just test       # pytest with coverage
 just format     # pyupgrade + ruff format
+just update     # update dependencies and lockfile
 
 uv audit        # dependency vulnerability scan
 uv sync --all-groups --all-extras  # install all dependencies
