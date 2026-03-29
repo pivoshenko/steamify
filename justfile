@@ -1,6 +1,6 @@
 format:
-  find src -type f -name '*.py' | xargs uv run pyupgrade --py313-plus
-  find tests -type f -name '*.py' | xargs uv run pyupgrade --py313-plus
+  find src -type f -name '*.py' | xargs uv run pyupgrade --py310-plus
+  find tests -type f -name '*.py' | xargs uv run pyupgrade --py310-plus
   uv run ruff format .
 
 lint:
