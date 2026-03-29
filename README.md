@@ -1,6 +1,6 @@
 # Ihroteka Converter
 
-<p align="center">
+<p align="left">
   <a href="https://opensource.org/licenses/MIT">
     <img alt="License" src="https://img.shields.io/pypi/l/ihroteka-converter?style=flat-square&logo=opensourceinitiative&logoColor=white&color=0A6847&label=License">
   </a>
@@ -10,60 +10,19 @@
   <a href="https://pypi.org/project/ihroteka-converter">
     <img alt="PyPI" src="https://img.shields.io/pypi/v/ihroteka-converter?style=flat-square&logo=pypi&logoColor=white&color=4856CD&label=PyPI">
   </a>
-  <a href="https://github.com/pivoshenko/ihroteka-converter/releases">
-    <img alt="Release" src="https://img.shields.io/github/v/release/pivoshenko/ihroteka-converter?style=flat-square&logo=github&logoColor=white&color=4856CD&label=Release">
+  <a href="https://github.com/pivoshenko/ihroteka-converter/actions/workflows/ci.yaml">
+    <img alt="CI" src="https://img.shields.io/github/actions/workflow/status/pivoshenko/ihroteka-converter/ci.yaml?label=CI&style=flat-square&logo=githubactions&logoColor=white&color=0A6847">
   </a>
-</p>
-
-<p align="center">
-  <a href="https://semantic-release.gitbook.io">
-    <img alt="Semantic_Release" src="https://img.shields.io/badge/Semantic_Release-angular-e10079?style=flat-square&logo=semanticrelease&logoColor=white&color=D83A56">
-  </a>
-  <a href="https://pycqa.github.io/isort">
-    <img alt="Imports" src="https://img.shields.io/badge/Imports-isort-black.svg?style=flat-square&logo=improvmx&logoColor=white&color=637A9F&">
+  <a href="https://codecov.io/gh/pivoshenko/ihroteka-converter">
+    <img alt="Coverage" src="https://img.shields.io/codecov/c/gh/pivoshenko/ihroteka-converter?token=cqRQxVnDR6&style=flat-square&logo=codecov&logoColor=white&color=0A6847&label=Coverage">
   </a>
   <a href="https://docs.astral.sh/ruff">
     <img alt="Ruff" src="https://img.shields.io/badge/Style-ruff-black.svg?style=flat-square&logo=ruff&logoColor=white&color=D7FF64">
   </a>
-  <a href="https://docs.astral.sh/ty/">
-    <img alt="ty" src="https://img.shields.io/badge/ty-checked-success.svg?style=flat-square&logo=pypy&logoColor=white&color=0A6847">
-  </a>
-</p>
-
-<p align="center">
-  <a href="https://github.com/pivoshenko/ihroteka-converter/actions/workflows/tests.yaml">
-    <img alt="Tests" src="https://img.shields.io/github/actions/workflow/status/pivoshenko/ihroteka-converter/tests.yaml?label=Tests&style=flat-square&logo=pytest&logoColor=white&color=0A6847">
-  </a>
-  <a href="https://github.com/pivoshenko/ihroteka-converter/actions/workflows/linters.yaml">
-    <img alt="Linters" src="https://img.shields.io/github/actions/workflow/status/pivoshenko/ihroteka-converter/linters.yaml?label=Linters&style=flat-square&logo=lintcode&logoColor=white&color=0A6847">
-  </a>
-  <a href="https://github.com/pivoshenko/ihroteka-converter/actions/workflows/release.yaml">
-    <img alt="Release" src="https://img.shields.io/github/actions/workflow/status/pivoshenko/ihroteka-converter/release.yaml?label=Release&style=flat-square&logo=pypi&logoColor=white&color=0A6847">
-  </a>
-  <a href="https://codecov.io/gh/pivoshenko/ihroteka-converter" >
-    <img alt="Codecov" src="https://img.shields.io/codecov/c/gh/pivoshenko/ihroteka-converter?token=cqRQxVnDR6&style=flat-square&logo=codecov&logoColor=white&color=0A6847&label=Coverage"/>
-  </a>
-</p>
-
-<p align="center">
-  <a href="https://pypi.org/project/ihroteka-converter">
-    <img alt="Downloads" src="https://img.shields.io/pypi/dm/ihroteka-converter?style=flat-square&logo=pythonanywhere&logoColor=white&color=4856CD&label=Downloads">
-  </a>
-  <a href="https://github.com/pivoshenko/ihroteka-converter">
-    <img alt="Stars" src="https://img.shields.io/github/stars/pivoshenko/ihroteka-converter?style=flat-square&logo=apachespark&logoColor=white&color=4856CD&label=Stars">
-  </a>
-</p>
-
-<p align="center">
   <a href="https://stand-with-ukraine.pp.ua">
     <img alt="StandWithUkraine" src="https://img.shields.io/badge/Support-Ukraine-FFC93C?style=flat-square&labelColor=07689F">
   </a>
 </p>
-
-- [Ihroteka Converter](#ihroteka-converter)
-  - [Overview](#overview)
-  - [Installation](#installation)
-  - [Examples](#examples)
 
 ## Overview
 
