@@ -53,12 +53,9 @@ requires = ["hatchling"]
 
 [dependency-groups]
 ci = ["python-semantic-release~=10.5.3"]
-formatters = ["pyupgrade~=3.21.2", "ruff~=0.15.8"]
-linters = ["commitizen~=4.13.9", "ruff~=0.15.8", "ty~=0.0.26"]
+formatters = ["pyupgrade~=3.21.2", "ruff~=0.15.9"]
+linters = ["ruff~=0.15.9", "ty~=0.0.28"]
 tests = ["coverage[toml]~=7.13.5", "pytest~=9.0.2", "pytest-cov~=7.1.0", "pytest-mock~=3.15.1", "pytest-sugar~=1.1.1"]
-
-[tool.commitizen]
-allowed_prefixes = ["0", "1", "2", "Initial", "Merge"]
 
 [tool.coverage.run]
 omit = ["*/__init__.py"]

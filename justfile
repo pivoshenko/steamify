@@ -6,7 +6,6 @@ format:
 lint:
   uv run ty check .
   uv run ruff check .
-  uv run cz check --rev-range .
 
 test:
   uv run pytest .
