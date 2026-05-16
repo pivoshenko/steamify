@@ -53,9 +53,9 @@ requires = ["hatchling"]
 
 [dependency-groups]
 ci = ["python-semantic-release~=10.5.3"]
-formatters = ["pyupgrade~=3.21.2", "ruff~=0.15.12"]
-linters = ["ruff~=0.15.12", "ty~=0.0.34"]
-tests = ["coverage[toml]~=7.13.5", "pytest~=9.0.3", "pytest-cov~=7.1.0", "pytest-mock~=3.15.1", "pytest-sugar~=1.1.1"]
+formatters = ["pyupgrade~=3.21.2", "ruff~=0.15.13"]
+linters = ["ruff~=0.15.13", "ty~=0.0.37"]
+tests = ["coverage[toml]~=7.14.0", "pytest~=9.0.3", "pytest-cov~=7.1.0", "pytest-mock~=3.15.1", "pytest-sugar~=1.1.1"]
 
 [tool.coverage.run]
 omit = ["*/__init__.py"]
