@@ -13,9 +13,6 @@
   <a href="https://github.com/pivoshenko/ihroteka-converter/actions/workflows/ci.yaml">
     <img alt="CI" src="https://img.shields.io/github/actions/workflow/status/pivoshenko/ihroteka-converter/ci.yaml?label=CI&style=flat-square&logo=githubactions&logoColor=white&color=0A6847">
   </a>
-  <a href="https://codecov.io/gh/pivoshenko/ihroteka-converter">
-    <img alt="Coverage" src="https://img.shields.io/codecov/c/gh/pivoshenko/ihroteka-converter?token=cqRQxVnDR6&style=flat-square&logo=codecov&logoColor=white&color=0A6847&label=Coverage">
-  </a>
   <a href="https://docs.astral.sh/ruff">
     <img alt="Ruff" src="https://img.shields.io/badge/Style-ruff-black.svg?style=flat-square&logo=ruff&logoColor=white&color=D7FF64">
   </a>

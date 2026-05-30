@@ -52,10 +52,9 @@ build-backend = "hatchling.build"
 requires = ["hatchling"]
 
 [dependency-groups]
-ci = ["python-semantic-release~=10.5.3"]
-formatters = ["pyupgrade~=3.21.2", "ruff~=0.15.14"]
-linters = ["ruff~=0.15.14", "ty~=0.0.39"]
-tests = ["coverage[toml]~=7.14.0", "pytest~=9.0.3", "pytest-cov~=7.1.0", "pytest-mock~=3.15.1", "pytest-sugar~=1.1.1"]
+formatters = ["pyupgrade~=3.21.2", "ruff~=0.15.15"]
+linters = ["ruff~=0.15.15", "ty~=0.0.40"]
+tests = ["coverage[toml]~=7.14.1", "pytest~=9.0.3", "pytest-cov~=7.1.0", "pytest-mock~=3.15.1", "pytest-sugar~=1.1.1"]
 
 [tool.coverage.run]
 omit = ["*/__init__.py"]
@@ -65,9 +64,7 @@ addopts = [
   "--basetemp=tests/fixtures",
   "--color=yes",
   "--cov=src",
-  "--cov-report=html",
   "--cov-report=term-missing",
-  "--cov-report=xml"
 ]
 testpaths = ["tests"]
 
@@ -94,19 +91,3 @@ required-imports = ["from __future__ import annotations"]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/*.py" = ["INP001", "S101"]
-
-[tool.semantic_release]
-changelog_file = "CHANGELOG.md"
-commit_author = "github-actions <github-actions@github.com>"
-exclude_commit_patterns = ["Merge pull request"]
-logging_use_named_masks = true
-version_toml = ["pyproject.toml:project.version"]
-version_variables = ["src/ihroteka_converter/__init__.py:__version__"]
-
-[tool.semantic_release.changelog]
-exclude_commit_patterns = ['''Merged? .*''', '''Initial Commit.*''', '''^\d+\.\d+\.\d+''']
-
-[tool.semantic_release.commit_parser_options]
-major_tags = ["feat"]
-minor_tags = ["fix", "perf", "refactor"]
-patch_tags = ["docs", "style"]

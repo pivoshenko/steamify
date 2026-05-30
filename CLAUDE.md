@@ -11,10 +11,14 @@ Public API: `from ihroteka_converter import convert` — single `convert(markdow
 ## Commands
 
 ```shell
+just install   # uv sync --all-groups --all-extras
 just format    # pyupgrade + ruff format
 just lint      # ty check + ruff check
-just test      # pytest with coverage (html, term-missing, xml)
+just test      # pytest with coverage (html, term-missing)
+just audit     # uv audit
+just check     # lint + test + audit
 just update    # uv lock --upgrade + uvx uv-upsync
+just release v # release flow (currently TODO)
 ```
 
 All commands use `uv run` under the hood. Run a single test: `uv run pytest tests/test_main.py::test_name -x`.
@@ -40,5 +44,16 @@ All conversion logic lives in a single module: `src/ihroteka_converter/__main__.
 ## Conventions
 
 - Conventional Commits (`feat`, `fix`, `docs`, `refactor`, etc.)
-- Versioning managed by python-semantic-release
+- Versioning + changelog managed by git-cliff (`cliff.toml`); release pipeline = `uv version` + `uv build` + `uv publish`
+- `__version__` resolves at runtime via `importlib.metadata.version("ihroteka-converter")`; single source of truth is `pyproject.toml` `[project] version`
 - Build backend: hatchling
+
+## GitHub Workflows
+
+- `.github/workflows/ci.yaml` — PR gate. Runs on push to `main`, PRs, manual dispatch. Steps: checkout → setup just + uv (Python 3.13) → `just install` → `just lint` → `just test` → `just audit`. Concurrency cancels in-progress PR runs.
+- `.github/workflows/release.yaml` — Manual dispatch only (`workflow_dispatch` with optional `version` input). Three jobs:
+  1. **tag** — git-cliff resolves bumped version, `uv version` updates `pyproject.toml`, git-cliff regenerates `CHANGELOG.md`, commits + tags `v<semver>`, pushes to `main`.
+  2. **release** — generates latest-only changelog body, creates GitHub Release for the tag.
+  3. **publish** — `uv build` + `uv publish --token $PYPI_TOKEN`.
+  Required secrets: `GH_TOKEN`, `PYPI_TOKEN`.
+- `.github/workflows/labels.yaml` — syncs `.github/labels.yaml` to the GitHub repository on changes or manual dispatch via `crazy-max/ghaction-github-labeler@v6`. Required secret: `GH_TOKEN`.

@@ -1,7 +1,3 @@
-# Requires GitHub secrets
-# - GH_TOKEN
-# - PYPI_TOKEN
-
 name: Release
 
 on:
@@ -15,41 +11,98 @@ permissions:
   contents: write
 
 jobs:
-  release:
-    name: Release
+  tag:
     runs-on: ubuntu-latest
-    concurrency: release
-    permissions:
-      id-token: write
-      contents: write
+    outputs:
+      tag: v${{ steps.version.outputs.version }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
+      - name: Install git-cliff
+        uses: orhun/git-cliff-action@v4
+        with:
+          args: --version
+
+      - name: Add git-cliff to PATH
+        run: echo "$RUNNER_TEMP/git-cliff/bin" >> "$GITHUB_PATH"
+
       - name: Install uv
         uses: astral-sh/setup-uv@v6
         with:
           python-version: "3.13"
 
-      - name: Install dependencies
-        run: uv sync --group ci
+      - name: Resolve version
+        id: version
+        run: |
+          if [[ -n "${{ github.event.inputs.version }}" ]]; then
+            VERSION="${{ github.event.inputs.version }}"
+          else
+            VERSION=$(git-cliff --bumped-version)
+            VERSION="${VERSION#v}"
+          fi
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
 
-      - name: Semantic release (auto)
-        if: ${{ !inputs.version }}
-        uses: python-semantic-release/python-semantic-release@v10.5.3
+      - name: Update version
+        run: uv version "${{ steps.version.outputs.version }}"
+
+      - name: Generate changelog
+        uses: orhun/git-cliff-action@v4
         with:
-          github_token: ${{ secrets.GH_TOKEN }}
+          args: --tag v${{ steps.version.outputs.version }} --output CHANGELOG.md
 
-      - name: Semantic release (version override)
-        if: ${{ inputs.version }}
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: uv run semantic-release version --define "version=${{ inputs.version }}"
+      - name: Commit and tag
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add pyproject.toml CHANGELOG.md
+          if ! git diff --cached --quiet; then
+            git commit -m "release: v${VERSION}"
+          fi
+          git tag "v${VERSION}"
+          git push origin main --tags
 
-      - name: Build package
+  release:
+    needs: tag
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.tag.outputs.tag }}
+          fetch-depth: 0
+
+      - name: Generate Changelog
+        uses: orhun/git-cliff-action@v4
+        id: changelog
+        with:
+          args: --latest --strip header
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ needs.tag.outputs.tag }}
+          body: ${{ steps.changelog.outputs.content }}
+
+  publish:
+    needs: [tag, release]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.tag.outputs.tag }}
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.13"
+
+      - name: Build
         run: uv build
 
-      - name: Publish package
+      - name: Publish to PyPI
         run: uv publish --token ${{ secrets.PYPI_TOKEN }}
