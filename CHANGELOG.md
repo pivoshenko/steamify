@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.3] - 2026-05-30
+
+### Documentation
+
+- Add features section and rename examples to usage
+
+### Miscellaneous
+
+- Remove unused release recipe stub
+
 ## [1.2.2] - 2026-05-30
 
 ### Build
@@ -24,6 +34,10 @@ All notable changes to this project will be documented in this file.
 - Remove invalid file
 - Add update command to justfile and CLAUDE.md
 - Update .gitignore and remove .python-version
+
+### Release
+
+- V1.2.2
 
 ### Style
 
