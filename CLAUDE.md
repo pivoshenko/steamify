@@ -18,7 +18,6 @@ just test      # pytest with coverage (html, term-missing)
 just audit     # uv audit
 just check     # lint + test + audit
 just update    # uv lock --upgrade + uvx uv-upsync
-just release v # release flow (currently TODO)
 ```
 
 All commands use `uv run` under the hood. Run a single test: `uv run pytest tests/test_main.py::test_name -x`.

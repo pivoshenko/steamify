@@ -24,6 +24,3 @@ check: lint test audit
 update:
     uv lock --upgrade
     uvx uv-upsync
-
-release version:
-    @echo "TODO: implement release flow for {{ version }}"
