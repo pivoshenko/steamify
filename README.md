@@ -30,6 +30,17 @@ A lightweight package for converting Markdown into Steam-compatible markup.
 *Ihroteka* (pronounced [ee-hroh-teh-kah]) is a Ukrainian word formed from "hra" (game) and "teka" (a place of keeping, an archive).
 It evokes the image of a living library of games - a space where experiences are gathered, preserved, and given structure.
 
+## Features
+
+- Zero runtime dependencies
+- Headings (`#`–`######`) → `[h1]`–`[h6]`
+- Bold, italic, strikethrough, inline code
+- Links and images → `[url]` / `[img]`
+- Ordered and unordered lists (nested)
+- Blockquotes (nested)
+- Fenced and indented code blocks → `[code]`
+- Horizontal rules → `[hr][/hr]`
+
 ## Installation
 
 Proceed by installing the tool and running it:
@@ -40,7 +51,7 @@ pip install -U ihroteka-converter
 uv add ihroteka-converter
 ```
 
-## Examples
+## Usage
 
 ```python
 from ihroteka_converter import convert
