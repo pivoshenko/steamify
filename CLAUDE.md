@@ -14,7 +14,7 @@ Public API: `from ihroteka_converter import convert` — single `convert(markdow
 just install   # uv sync --all-groups --all-extras
 just format    # pyupgrade + ruff format
 just lint      # ty check + ruff check
-just test      # pytest with coverage (html, term-missing)
+just test      # pytest with coverage (term-missing)
 just audit     # uv audit
 just check     # lint + test + audit
 just update    # uv lock --upgrade + uvx uv-upsync

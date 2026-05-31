@@ -60,12 +60,7 @@ tests = ["coverage[toml]~=7.14.1", "pytest~=9.0.3", "pytest-cov~=7.1.0", "pytest
 omit = ["*/__init__.py"]
 
 [tool.pytest.ini_options]
-addopts = [
-  "--basetemp=tests/fixtures",
-  "--color=yes",
-  "--cov=src",
-  "--cov-report=term-missing",
-]
+addopts = ["--color=yes", "--cov=src", "--cov-report=term-missing"]
 testpaths = ["tests"]
 
 [tool.ruff]
