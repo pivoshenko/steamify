@@ -1,16 +1,5 @@
 # Contributing
 
-- [Contributing](#contributing)
-  - [Reporting Bugs](#reporting-bugs)
-    - [How To Submit a Bug Report](#how-to-submit-a-bug-report)
-  - [Suggesting Enhancements](#suggesting-enhancements)
-    - [How To Submit an Enhancement](#how-to-submit-an-enhancement)
-  - [Code Contributions](#code-contributions)
-    - [Local Development](#local-development)
-    - [Branches](#branches)
-    - [Commits](#commits)
-    - [Pull Requests](#pull-requests)
-
 Thank you for taking the time to contribute.
 
 These guidelines are intended to make contributions consistent and easy to review across repositories. They are guidance, not hard rules, and maintainers may adapt them when needed.
