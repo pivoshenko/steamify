@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.4] - 2026-05-31
+
+### Build
+
+- Sync lockfile to 1.2.3
+
+### Documentation
+
+- Drop license badge from readme
+- Drop redundant table of contents
+- Simplify pull request template
+
+### Miscellaneous
+
+- Expand gitignore with editors, env, logs
+
 ## [1.2.3] - 2026-05-30
 
 ### Documentation
@@ -11,6 +27,10 @@ All notable changes to this project will be documented in this file.
 ### Miscellaneous
 
 - Remove unused release recipe stub
+
+### Release
+
+- V1.2.3
 
 ## [1.2.2] - 2026-05-30
 
