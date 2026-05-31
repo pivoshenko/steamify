@@ -143,7 +143,7 @@ wheels = [
 
 [[package]]
 name = "ihroteka-converter"
-version = "1.2.1"
+version = "1.2.3"
 source = { editable = "." }
 
 [package.dev-dependencies]
