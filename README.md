@@ -1,9 +1,6 @@
 # Ihroteka Converter
 
 <p align="left">
-  <a href="https://opensource.org/licenses/MIT">
-    <img alt="License" src="https://img.shields.io/pypi/l/ihroteka-converter?style=flat-square&logo=opensourceinitiative&logoColor=white&color=0A6847&label=License">
-  </a>
   <a href="https://pypi.org/project/ihroteka-converter">
     <img alt="Python" src="https://img.shields.io/pypi/pyversions/ihroteka-converter?style=flat-square&logo=python&logoColor=white&color=4856CD&label=Python">
   </a>
