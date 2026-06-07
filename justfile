@@ -5,22 +5,24 @@ install:
     uv sync --all-groups --all-extras
 
 format:
-    find src -type f -name '*.py' | xargs uv run pyupgrade --py310-plus
-    find tests -type f -name '*.py' | xargs uv run pyupgrade --py310-plus
-    uv run ruff format .
+    find src -type f -name '*.py' | xargs uvx pyupgrade --py310-plus
+    find tests -type f -name '*.py' | xargs uvx pyupgrade --py310-plus
+    uvx ruff check --fix .
+    uvx ruff format .
 
 lint:
-    uv run ty check .
-    uv run ruff check .
+    uvx ruff check .
+    uvx ruff format --check .
+    uvx ty check .
 
 test:
-    uv run pytest .
+    uvx pytest .
 
 audit:
-    uv audit
+    uvx pip-audit
 
-check: lint test audit
+check: lint test
 
 update:
-    uv lock --upgrade
     uvx uv-upsync
+    uv sync
