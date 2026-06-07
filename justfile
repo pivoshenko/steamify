@@ -5,8 +5,7 @@ install:
     uv sync --all-groups --all-extras
 
 format:
-    find src -type f -name '*.py' | xargs uvx pyupgrade --py310-plus
-    find tests -type f -name '*.py' | xargs uvx pyupgrade --py310-plus
+    find . -type f -name '*.py' -not -path '*/.venv/*' | xargs uvx pyupgrade --py310-plus
     uvx ruff check --fix .
     uvx ruff format .
 
@@ -24,5 +23,5 @@ audit:
 check: lint test
 
 update:
+    uv lock --upgrade
     uvx uv-upsync
-    uv sync

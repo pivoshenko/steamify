@@ -12,12 +12,12 @@ Public API: `from ihroteka_converter import convert` — single `convert(markdow
 
 ```shell
 just install   # uv sync --all-groups --all-extras
-just format    # uvx pyupgrade --py310-plus over src + tests, then uvx ruff check --fix ., then uvx ruff format .
+just format    # uvx pyupgrade --py310-plus over . (excl .venv), then uvx ruff check --fix ., then uvx ruff format .
 just lint      # uvx ruff check ., uvx ruff format --check ., uvx ty check .
 just test      # uvx pytest .
 just audit     # uvx pip-audit
 just check     # lint + test
-just update    # uvx uv-upsync, then uv sync
+just update    # uv lock --upgrade, then uvx uv-upsync
 ```
 
 Run a single test: `uvx pytest tests/test_main.py::test_name -x`.
