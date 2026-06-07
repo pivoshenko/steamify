@@ -15,7 +15,7 @@ lint:
     uvx ty check .
 
 test:
-    @[ -f .no-tests ] && echo "skipping (.no-tests sentinel)" || uvx pytest .
+    @[ -f .no-tests ] && echo "skipping (.no-tests sentinel)" || uv run pytest .
 
 audit:
     uvx pip-audit
