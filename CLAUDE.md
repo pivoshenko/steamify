@@ -13,14 +13,14 @@ Public API: `from ihroteka_converter import convert` — single `convert(markdow
 ```shell
 just install   # uv sync --all-groups --all-extras
 just format    # uvx pyupgrade --py310-plus over . (excl .venv), then uvx ruff check --fix ., then uvx ruff format .
-just lint      # uvx ruff check ., uvx ruff format --check ., uvx ty check .
-just test      # uvx pytest .
+just lint      # uvx ruff check ., uvx ty check .
+just test      # uv run pytest . (skipped if .no-tests sentinel exists)
 just audit     # uvx pip-audit
 just check     # lint + test
 just update    # uv lock --upgrade, then uvx uv-upsync
 ```
 
-Run a single test: `uvx pytest tests/test_main.py::test_name -x`.
+Run a single test: `uv run pytest tests/test_main.py::test_name -x`.
 
 ## Architecture
 
@@ -49,7 +49,7 @@ All conversion logic lives in a single module: `src/ihroteka_converter/__main__.
 
 ## GitHub Workflows
 
-- `.github/workflows/ci.yaml` — PR gate. Runs on push to `main`, PRs, manual dispatch. Steps: checkout → setup just + uv (Python 3.13) → `just install` → `just lint` → `just test` → `just audit`. Concurrency cancels in-progress PR runs.
+- `.github/workflows/ci.yaml` — PR gate. Runs on push to `main`, PRs, manual dispatch. Single flat `ci` job on `ubuntu-24.04-arm`. Steps: checkout → setup just + uv (Python 3.13) → `just install` → `just lint` → `just test` → `just audit`. Concurrency cancels in-progress PR runs.
 - `.github/workflows/release.yaml` — Manual dispatch only (`workflow_dispatch` with optional `version` input). Three jobs:
   1. **tag** — git-cliff resolves bumped version, `uv version` updates `pyproject.toml`, git-cliff regenerates `CHANGELOG.md`, commits + tags `v<semver>`, pushes to `main`.
   2. **release** — generates latest-only changelog body, creates GitHub Release for the tag.
