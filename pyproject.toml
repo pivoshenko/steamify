@@ -52,9 +52,9 @@ build-backend = "hatchling.build"
 requires = ["hatchling"]
 
 [dependency-groups]
-formatters = ["pyupgrade~=3.21.2", "ruff~=0.15.15"]
-linters = ["ruff~=0.15.15", "ty~=0.0.40"]
-tests = ["coverage[toml]~=7.14.1", "pytest~=9.0.3", "pytest-cov~=7.1.0", "pytest-mock~=3.15.1", "pytest-sugar~=1.1.1"]
+formatters = ["pyupgrade~=3.21.2", "ruff~=0.15.22"]
+linters = ["ruff~=0.15.22", "ty~=0.0.60"]
+tests = ["coverage[toml]~=7.15.2", "pytest~=9.1.1", "pytest-cov~=7.1.0", "pytest-mock~=3.15.1", "pytest-sugar~=1.1.1"]
 
 [tool.coverage.run]
 omit = ["*/__init__.py"]
