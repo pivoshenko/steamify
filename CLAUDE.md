@@ -38,6 +38,7 @@ All conversion logic lives in a single module: `src/ihroteka_converter/__main__.
 - `from __future__ import annotations` required in every file (enforced by ruff isort)
 - Single imports per line, length-sorted, 2 blank lines after imports
 - Line length: 100
+- Module docstrings open with `Module that contains ...`; `__init__.py` opens with `Package that contains ...`
 - Tests use parametrized pytest; test file mirrors internal function names
 
 ## Conventions
