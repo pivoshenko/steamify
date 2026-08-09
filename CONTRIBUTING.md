@@ -4,7 +4,7 @@ Thank you for taking the time to contribute.
 
 These guidelines are intended to make contributions consistent and easy to review across repositories. They are guidance, not hard rules, and maintainers may adapt them when needed.
 
-## Reporting bugs
+## Reporting Bugs
 
 Before creating a bug report, search existing issues to avoid duplicates.
 
@@ -13,7 +13,7 @@ When opening a bug report, include enough context for someone else to reproduce 
 > [!NOTE]
 > If you find a closed issue that looks similar, open a new issue and link the previous one.
 
-### How to submit a bug report
+### How to Submit a Bug Report
 
 Use the bug issue template and provide the following:
 
@@ -26,13 +26,13 @@ Use the bug issue template and provide the following:
 If the issue is intermittent, describe how often it happens and known triggers.
 If the issue appeared after a change, mention the last known working version or commit if available.
 
-## Suggesting enhancements
+## Suggesting Enhancements
 
 Before submitting an enhancement, check whether a similar request already exists.
 
 Enhancement requests can include new features, changes to existing behavior, usability improvements, or performance improvements.
 
-### How to submit an enhancement
+### How to Submit an Enhancement
 
 Use the feature request template and provide the following:
 
@@ -43,15 +43,15 @@ Use the feature request template and provide the following:
 
 Concrete examples, API sketches, UI mockups, or references are helpful when relevant.
 
-## Code contributions
+## Code Contributions
 
-### Local development
+### Local Development
 
 1. Fork the repository and create a branch for your change.
 2. Set up the project using the repository's README or development docs.
 3. Run the project's tests and quality checks locally before opening a pull request.
 
-When a repository includes helper scripts or task runners, prefer using those documented commands.
+If the repository has helper scripts or a task runner, use those documented commands.
 
 > [!IMPORTANT]
 > Behavioral code changes should include or update tests.
@@ -78,7 +78,7 @@ Use clear, focused commits with descriptive messages.
 
 This project follows [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
 
-**Format**
+#### Format
 
 ```
 <type>(<scope>): <subject>
@@ -91,7 +91,7 @@ This project follows [Conventional Commits](https://www.conventionalcommits.org/
 - `subject`: imperative mood, lowercase, no trailing period, 72 characters or fewer
 - `body`: optional; use it to explain *why*, not *what*; wrap at 72 characters
 
-**Type prefixes**
+#### Type Prefixes
 
 | Prefix     | When to use                                                                                             |
 | ---------- | ------------------------------------------------------------------------------------------------------- |
@@ -108,7 +108,7 @@ This project follows [Conventional Commits](https://www.conventionalcommits.org/
 | `design`   | Changes to visual or UI design assets and layout                                                        |
 | `revert`   | Reverts a previous commit (reference the reverted commit hash in the body)                              |
 
-**Examples**
+#### Examples
 
 ```
 feat(sync): support skills source sub-directory selection
@@ -117,7 +117,7 @@ refactor(mcps): align mcps[] schema with skills[]
 docs(config): document browser URL auto-rewriting for --config
 ```
 
-### Pull requests
+### Pull Requests
 
 - Fill out the pull request template completely
 - Keep the pull request focused and scoped to one change set
