@@ -1,4 +1,4 @@
-"""Tests for the main module."""
+"""Module that contains tests for the main module."""
 
 from __future__ import annotations
 

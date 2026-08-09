@@ -1,4 +1,4 @@
-"""A lightweight package for converting Markdown into Steam-compatible markup."""
+"""Package that contains a lightweight converter from Markdown into Steam-compatible markup."""
 
 from __future__ import annotations
 
