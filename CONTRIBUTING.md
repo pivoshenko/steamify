@@ -4,7 +4,7 @@ Thank you for taking the time to contribute.
 
 These guidelines are intended to make contributions consistent and easy to review across repositories. They are guidance, not hard rules, and maintainers may adapt them when needed.
 
-## Reporting Bugs
+## Reporting bugs
 
 Before creating a bug report, search existing issues to avoid duplicates.
 
@@ -13,7 +13,7 @@ When opening a bug report, include enough context for someone else to reproduce 
 > [!NOTE]
 > If you find a closed issue that looks similar, open a new issue and link the previous one.
 
-### How To Submit a Bug Report
+### How to submit a bug report
 
 Use the bug issue template and provide the following:
 
@@ -26,13 +26,13 @@ Use the bug issue template and provide the following:
 If the issue is intermittent, describe how often it happens and known triggers.
 If the issue appeared after a change, mention the last known working version or commit if available.
 
-## Suggesting Enhancements
+## Suggesting enhancements
 
 Before submitting an enhancement, check whether a similar request already exists.
 
 Enhancement requests can include new features, changes to existing behavior, usability improvements, or performance improvements.
 
-### How To Submit an Enhancement
+### How to submit an enhancement
 
 Use the feature request template and provide the following:
 
@@ -43,9 +43,9 @@ Use the feature request template and provide the following:
 
 Concrete examples, API sketches, UI mockups, or references are helpful when relevant.
 
-## Code Contributions
+## Code contributions
 
-### Local Development
+### Local development
 
 1. Fork the repository and create a branch for your change.
 2. Set up the project using the repository's README or development docs.
@@ -70,7 +70,7 @@ docs/update-sync-flow-diagram
 refactor/mcps-schema-alignment
 ```
 
-A branch covering multiple unrelated changes should be split — one concern per branch makes review and bisect much easier.
+Split a branch that covers multiple unrelated changes. One concern per branch makes review and bisect much easier.
 
 ### Commits
 
@@ -86,10 +86,10 @@ This project follows [Conventional Commits](https://www.conventionalcommits.org/
 [optional body]
 ```
 
-- **type** — one of the prefixes from the table below
-- **scope** — the module, command, or area being changed (e.g. `sync`, `mcps`, `github`, `landing`, `config`); omit when the change is truly cross-cutting
-- **subject** — imperative mood, lowercase, no trailing period, 72 characters or fewer
-- **body** — optional; use it to explain *why*, not *what*; wrap at 72 characters
+- `type`: one of the prefixes from the table below
+- `scope`: the module, command, or area being changed (e.g. `sync`, `mcps`, `github`, `landing`, `config`); omit when the change is truly cross-cutting
+- `subject`: imperative mood, lowercase, no trailing period, 72 characters or fewer
+- `body`: optional; use it to explain *why*, not *what*; wrap at 72 characters
 
 **Type prefixes**
 
@@ -117,7 +117,7 @@ refactor(mcps): align mcps[] schema with skills[]
 docs(config): document browser URL auto-rewriting for --config
 ```
 
-### Pull Requests
+### Pull requests
 
 - Fill out the pull request template completely
 - Keep the pull request focused and scoped to one change set

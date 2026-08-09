@@ -79,7 +79,6 @@ def _close_remaining_blocks(state: ConverterState) -> None:
 
 
 def _process_line(md_line: str, state: ConverterState) -> None:
-    # Handle code blocks first (they have highest priority)
     if state.inside_code_block:
         _convert_code_block_content(md_line, state)
         return
@@ -89,19 +88,15 @@ def _process_line(md_line: str, state: ConverterState) -> None:
         state.code_block_accumulator.clear()
         return
 
-    # Handle empty lines
     if md_line.strip() == "":
         _convert_empty_line(state)
         return
 
-    # Check if we need to close lists (non-list line detected)
     _check_list_continuation(md_line, state)
 
-    # Extract and handle quote markers
     line_content, quote_depth = _extract_quotes(md_line)
     _convert_quote_level(quote_depth, state)
 
-    # Try to handle as special block elements
     if _try_convert_heading(line_content, state):
         return
     if _try_convert_horizontal_rule(line_content, state):
@@ -109,7 +104,6 @@ def _process_line(md_line: str, state: ConverterState) -> None:
     if _try_convert_list_item(line_content, state):
         return
 
-    # Default: convert as regular paragraph with inline elements
     state.add_line(_convert_inline_elements(line_content))
 
 
@@ -144,7 +138,6 @@ def _adjust_list_stack(list_type: str, indent_spaces: int, state: ConverterState
     current_indent = state.list_stack[-1][1]
 
     if indent_spaces > current_indent:
-        # Nested list
         state.list_stack.append((list_type, indent_spaces))
         match list_type:
             case "ol":
@@ -154,11 +147,9 @@ def _adjust_list_stack(list_type: str, indent_spaces: int, state: ConverterState
         state.add_line(f"[{tag}]")
 
     elif indent_spaces < current_indent:
-        # Dedent
         _convert_list_dedent(list_type, indent_spaces, state)
 
     else:
-        # Same level, possibly different type
         _convert_list_same_level(list_type, indent_spaces, state)
 
 
@@ -186,7 +177,6 @@ def _convert_list_dedent(list_type: str, indent_spaces: int, state: ConverterSta
 
     if state.list_stack and state.list_stack[-1][1] == indent_spaces:
         if state.list_stack[-1][0] != list_type:
-            # Same indent, different type: close and reopen
             prev_type, _ = state.list_stack.pop()
             match prev_type:
                 case "ol":
@@ -203,7 +193,6 @@ def _convert_list_dedent(list_type: str, indent_spaces: int, state: ConverterSta
             state.add_line(f"[{new_tag}]")
 
     else:
-        # New list at this indent level
         state.list_stack.append((list_type, indent_spaces))
         match list_type:
             case "ol":
@@ -215,7 +204,6 @@ def _convert_list_dedent(list_type: str, indent_spaces: int, state: ConverterSta
 
 def _convert_list_same_level(list_type: str, indent_spaces: int, state: ConverterState) -> None:
     if state.list_stack[-1][0] != list_type:
-        # Different list type at same level
         prev_type, _ = state.list_stack.pop()
         match prev_type:
             case "ol":
