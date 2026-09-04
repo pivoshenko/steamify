@@ -27,7 +27,7 @@ _PATTERN_LIST_MARKER = re.compile(r"^\s*([-+*]|\d+\.)\s+")
 
 
 @dataclass
-class ConverterState:  # noqa: D101
+class SteamState:  # noqa: D101
     lines: list[str] = field(default_factory=list)
     list_stack: list[tuple[str, int]] = field(default_factory=list)
     current_quote_level: int = 0
@@ -56,9 +56,9 @@ class ConverterState:  # noqa: D101
         return "\n".join(self.lines)
 
 
-def convert(markdown_text: str) -> str:
+def to_steam(markdown_text: str) -> str:
     """Convert Markdown text to Steam-compatible markup."""
-    state = ConverterState()
+    state = SteamState()
     lines = markdown_text.splitlines()
 
     for md_line in lines:
@@ -69,7 +69,7 @@ def convert(markdown_text: str) -> str:
     return state.build()
 
 
-def _close_remaining_blocks(state: ConverterState) -> None:
+def _close_remaining_blocks(state: SteamState) -> None:
     if state.inside_code_block:
         code_content = "\n".join(state.code_block_accumulator)
         state.add_line(f"[code]{code_content}[/code]")
@@ -78,7 +78,7 @@ def _close_remaining_blocks(state: ConverterState) -> None:
     state.close_quotes()
 
 
-def _process_line(md_line: str, state: ConverterState) -> None:
+def _process_line(md_line: str, state: SteamState) -> None:
     if state.inside_code_block:
         _convert_code_block_content(md_line, state)
         return
@@ -107,7 +107,7 @@ def _process_line(md_line: str, state: ConverterState) -> None:
     state.add_line(_convert_inline_elements(line_content))
 
 
-def _convert_code_block_content(md_line: str, state: ConverterState) -> None:
+def _convert_code_block_content(md_line: str, state: SteamState) -> None:
     if md_line.strip().startswith("```"):
         state.inside_code_block = False
         code_content = "\n".join(state.code_block_accumulator)
@@ -118,13 +118,13 @@ def _convert_code_block_content(md_line: str, state: ConverterState) -> None:
         state.code_block_accumulator.append(md_line)
 
 
-def _convert_empty_line(state: ConverterState) -> None:
+def _convert_empty_line(state: SteamState) -> None:
     state.close_lists()
     state.close_quotes()
     state.add_line("")
 
 
-def _adjust_list_stack(list_type: str, indent_spaces: int, state: ConverterState) -> None:
+def _adjust_list_stack(list_type: str, indent_spaces: int, state: SteamState) -> None:
     if not state.list_stack:
         state.list_stack.append((list_type, indent_spaces))
         match list_type:
@@ -153,7 +153,7 @@ def _adjust_list_stack(list_type: str, indent_spaces: int, state: ConverterState
         _convert_list_same_level(list_type, indent_spaces, state)
 
 
-def _check_list_continuation(md_line: str, state: ConverterState) -> None:
+def _check_list_continuation(md_line: str, state: SteamState) -> None:
     if not state.list_stack:
         return
 
@@ -165,7 +165,7 @@ def _check_list_continuation(md_line: str, state: ConverterState) -> None:
             state.close_lists()
 
 
-def _convert_list_dedent(list_type: str, indent_spaces: int, state: ConverterState) -> None:
+def _convert_list_dedent(list_type: str, indent_spaces: int, state: SteamState) -> None:
     while state.list_stack and indent_spaces < state.list_stack[-1][1]:
         prev_type, _ = state.list_stack.pop()
         match prev_type:
@@ -202,7 +202,7 @@ def _convert_list_dedent(list_type: str, indent_spaces: int, state: ConverterSta
         state.add_line(f"[{tag}]")
 
 
-def _convert_list_same_level(list_type: str, indent_spaces: int, state: ConverterState) -> None:
+def _convert_list_same_level(list_type: str, indent_spaces: int, state: SteamState) -> None:
     if state.list_stack[-1][0] != list_type:
         prev_type, _ = state.list_stack.pop()
         match prev_type:
@@ -220,7 +220,7 @@ def _convert_list_same_level(list_type: str, indent_spaces: int, state: Converte
         state.add_line(f"[{new_tag}]")
 
 
-def _try_convert_list_item(line_content: str, state: ConverterState) -> bool:
+def _try_convert_list_item(line_content: str, state: SteamState) -> bool:
     match = _PATTERN_LIST_ITEM.match(line_content)
     if not match:
         return False
@@ -239,7 +239,7 @@ def _try_convert_list_item(line_content: str, state: ConverterState) -> bool:
     return True
 
 
-def _convert_quote_level(quote_depth: int, state: ConverterState) -> None:
+def _convert_quote_level(quote_depth: int, state: SteamState) -> None:
     match quote_depth:
         case 0:
             state.close_quotes()
@@ -264,7 +264,7 @@ def _extract_quotes(md_line: str) -> tuple[str, int]:
     return stripped_line, quote_depth
 
 
-def _try_convert_heading(line_content: str, state: ConverterState) -> bool:
+def _try_convert_heading(line_content: str, state: SteamState) -> bool:
     match = _PATTERN_HEADING.match(line_content)
     if not match:
         return False
@@ -277,7 +277,7 @@ def _try_convert_heading(line_content: str, state: ConverterState) -> bool:
     return True
 
 
-def _try_convert_horizontal_rule(line_content: str, state: ConverterState) -> bool:
+def _try_convert_horizontal_rule(line_content: str, state: SteamState) -> bool:
     if (
         _PATTERN_HR_DASH.match(line_content)
         or _PATTERN_HR_UNDERSCORE.match(line_content)

@@ -1,36 +1,36 @@
-"""Module that contains tests for the main module."""
+"""Module that contains tests for the steam module."""
 
 from __future__ import annotations
 
 import pytest
 
-from ihroteka_converter.__main__ import ConverterState
-from ihroteka_converter.__main__ import _adjust_list_stack
-from ihroteka_converter.__main__ import _check_list_continuation
-from ihroteka_converter.__main__ import _close_remaining_blocks
-from ihroteka_converter.__main__ import _convert_code_block_content
-from ihroteka_converter.__main__ import _convert_empty_line
-from ihroteka_converter.__main__ import _convert_inline_bold
-from ihroteka_converter.__main__ import _convert_inline_code_spans
-from ihroteka_converter.__main__ import _convert_inline_elements
-from ihroteka_converter.__main__ import _convert_inline_images
-from ihroteka_converter.__main__ import _convert_inline_italic
-from ihroteka_converter.__main__ import _convert_inline_links
-from ihroteka_converter.__main__ import _convert_inline_strikethrough
-from ihroteka_converter.__main__ import _convert_list_dedent
-from ihroteka_converter.__main__ import _convert_list_same_level
-from ihroteka_converter.__main__ import _convert_quote_level
-from ihroteka_converter.__main__ import _extract_quotes
-from ihroteka_converter.__main__ import _process_line
-from ihroteka_converter.__main__ import _render_inline_code_spans
-from ihroteka_converter.__main__ import _try_convert_heading
-from ihroteka_converter.__main__ import _try_convert_horizontal_rule
-from ihroteka_converter.__main__ import _try_convert_list_item
-from ihroteka_converter.__main__ import convert
+from steamify.steam import SteamState
+from steamify.steam import _adjust_list_stack
+from steamify.steam import _check_list_continuation
+from steamify.steam import _close_remaining_blocks
+from steamify.steam import _convert_code_block_content
+from steamify.steam import _convert_empty_line
+from steamify.steam import _convert_inline_bold
+from steamify.steam import _convert_inline_code_spans
+from steamify.steam import _convert_inline_elements
+from steamify.steam import _convert_inline_images
+from steamify.steam import _convert_inline_italic
+from steamify.steam import _convert_inline_links
+from steamify.steam import _convert_inline_strikethrough
+from steamify.steam import _convert_list_dedent
+from steamify.steam import _convert_list_same_level
+from steamify.steam import _convert_quote_level
+from steamify.steam import _extract_quotes
+from steamify.steam import _process_line
+from steamify.steam import _render_inline_code_spans
+from steamify.steam import _try_convert_heading
+from steamify.steam import _try_convert_horizontal_rule
+from steamify.steam import _try_convert_list_item
+from steamify.steam import to_steam
 
 
 def test_add_line() -> None:
-    state = ConverterState()
+    state = SteamState()
     state.add_line("line1")
     state.add_line("line2")
     assert state.lines == ["line1", "line2"]
@@ -51,7 +51,7 @@ def test_close_lists(
     expected_lines: list[str],
     expected_stack: list[tuple[str, int]],
 ) -> None:
-    state = ConverterState()
+    state = SteamState()
     state.list_stack = list_stack.copy()
     state.close_lists()
     assert state.lines == expected_lines
@@ -68,7 +68,7 @@ def test_close_lists(
     ],
 )
 def test_close_quotes(quote_level: int, expected_line: str) -> None:
-    state = ConverterState()
+    state = SteamState()
     state.current_quote_level = quote_level
     state.close_quotes()
     assert state.build() == expected_line
@@ -85,7 +85,7 @@ def test_close_quotes(quote_level: int, expected_line: str) -> None:
     ],
 )
 def test_build(lines: list[str], expected_lines: str) -> None:
-    state = ConverterState()
+    state = SteamState()
     state.lines = lines
     assert state.build() == expected_lines
 
@@ -121,8 +121,8 @@ def test_build(lines: list[str], expected_lines: str) -> None:
         ("line1\n\nline2", "line1\n\nline2"),
     ],
 )
-def test_convert(markdown: str, expected: str) -> None:
-    assert convert(markdown) == expected
+def test_to_steam(markdown: str, expected: str) -> None:
+    assert to_steam(markdown) == expected
 
 
 @pytest.mark.parametrize(
@@ -277,7 +277,7 @@ def test_try_convert_heading(
     expected: bool,  # noqa: FBT001
     expected_lines: list[str],
 ) -> None:
-    state = ConverterState()
+    state = SteamState()
     result = _try_convert_heading(line, state)
     assert result == expected
     assert state.lines == expected_lines
@@ -302,7 +302,7 @@ def test_try_convert_horizontal_rule(
     expected: bool,  # noqa: FBT001
     expected_line: str,
 ) -> None:
-    state = ConverterState()
+    state = SteamState()
     result = _try_convert_horizontal_rule(line, state)
     assert result == expected
     assert state.build() == expected_line
@@ -343,7 +343,7 @@ def test_convert_quote_level(
     new_level: int,
     expected_lines: list[str],
 ) -> None:
-    state = ConverterState()
+    state = SteamState()
     state.current_quote_level = current_level
     _convert_quote_level(new_level, state)
     assert state.lines == expected_lines
@@ -371,7 +371,7 @@ def test_try_convert_list_item(
     expected: bool,  # noqa: FBT001
     expected_item: str | None,
 ) -> None:
-    state = ConverterState()
+    state = SteamState()
     result = _try_convert_list_item(line, state)
     assert result == expected
     if expected_item:
@@ -393,7 +393,7 @@ def test_adjust_list_stack_new_list(
     existing_stack: list[tuple[str, int]],
     expected_tag: str,
 ) -> None:
-    state = ConverterState()
+    state = SteamState()
     state.list_stack = existing_stack.copy()
     _adjust_list_stack(list_type, indent, state)
     assert expected_tag in state.lines
@@ -414,7 +414,7 @@ def test_check_list_continuation(
     list_stack: list[tuple[str, int]],
     should_close: bool,  # noqa: FBT001
 ) -> None:
-    state = ConverterState()
+    state = SteamState()
     state.list_stack = list_stack.copy()
     _check_list_continuation(line, state)
     if should_close:
@@ -424,7 +424,7 @@ def test_check_list_continuation(
 
 
 def test_convert_list_dedent() -> None:
-    state = ConverterState()
+    state = SteamState()
     state.list_stack = [("ul", 0), ("ul", 2), ("ul", 4)]
     _convert_list_dedent("ul", 0, state)
     assert len(state.list_stack) == 1
@@ -432,7 +432,7 @@ def test_convert_list_dedent() -> None:
 
 
 def test_convert_list_same_level_different_type() -> None:
-    state = ConverterState()
+    state = SteamState()
     state.list_stack = [("ul", 0)]
     _convert_list_same_level("ol", 0, state)
     assert state.list_stack[-1][0] == "ol"
@@ -441,7 +441,7 @@ def test_convert_list_same_level_different_type() -> None:
 
 
 def test_convert_code_block_content_inside_block() -> None:
-    state = ConverterState()
+    state = SteamState()
     state.inside_code_block = True
     _convert_code_block_content("code line", state)
     assert state.code_block_accumulator == ["code line"]
@@ -449,7 +449,7 @@ def test_convert_code_block_content_inside_block() -> None:
 
 
 def test_convert_code_block_content_closing() -> None:
-    state = ConverterState()
+    state = SteamState()
     state.inside_code_block = True
     state.code_block_accumulator = ["line1", "line2"]
     _convert_code_block_content("```", state)
@@ -459,7 +459,7 @@ def test_convert_code_block_content_closing() -> None:
 
 
 def test_convert_empty_line() -> None:
-    state = ConverterState()
+    state = SteamState()
     state.list_stack = [("ul", 0)]
     state.current_quote_level = 1
     _convert_empty_line(state)
@@ -469,7 +469,7 @@ def test_convert_empty_line() -> None:
 
 
 def test_close_remaining_blocks_with_code_block() -> None:
-    state = ConverterState()
+    state = SteamState()
     state.inside_code_block = True
     state.code_block_accumulator = ["code"]
     _close_remaining_blocks(state)
@@ -477,14 +477,14 @@ def test_close_remaining_blocks_with_code_block() -> None:
 
 
 def test_close_remaining_blocks_with_lists() -> None:
-    state = ConverterState()
+    state = SteamState()
     state.list_stack = [("ul", 0)]
     _close_remaining_blocks(state)
     assert "[/list]" in state.lines
 
 
 def test_close_remaining_blocks_with_quotes() -> None:
-    state = ConverterState()
+    state = SteamState()
     state.current_quote_level = 2
     _close_remaining_blocks(state)
     assert "[/quote][/quote]" in state.lines
@@ -502,7 +502,7 @@ def test_close_remaining_blocks_with_quotes() -> None:
     ],
 )
 def test_process_line(line: str, expected_pattern: str | None) -> None:
-    state = ConverterState()
+    state = SteamState()
     _process_line(line, state)
     if expected_pattern:
         assert any(expected_pattern in output_line for output_line in state.lines)
@@ -528,7 +528,7 @@ def test_process_line(line: str, expected_pattern: str | None) -> None:
     ],
 )
 def test_complex_scenarios(markdown: str, expected: str) -> None:
-    assert convert(markdown) == expected
+    assert to_steam(markdown) == expected
 
 
 @pytest.mark.parametrize(
@@ -544,5 +544,5 @@ def test_complex_scenarios(markdown: str, expected: str) -> None:
     ],
 )
 def test_edge_cases(markdown: str, expected: str) -> None:
-    result = convert(markdown)
+    result = to_steam(markdown)
     assert result == expected

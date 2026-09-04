@@ -20,13 +20,12 @@ classifiers = [
   "Topic :: Software Development :: Libraries :: Python Modules"
 ]
 dependencies = []
-description = "A lightweight package for converting Markdown into Steam-compatible markup."
+description = "A lightweight package for converting Markdown into Steam-compatible markup, and back again."
 keywords = [
   "bbcode",
   "converter",
   "formatter",
   "gaming",
-  "ihroteka",
   "markdown",
   "markup",
   "parser",
@@ -34,18 +33,19 @@ keywords = [
   "steam-bbcode",
   "steam-bbcode-converter",
   "steam-workshop",
+  "steamify",
   "text-processing"
 ]
 license = "MIT"
 maintainers = [{ "name" = "Volodymyr Pivoshenko", "email" = "contact@pivoshenko.dev" }]
-name = "ihroteka-converter"
+name = "steamify"
 readme = "README.md"
 requires-python = ">=3.10"
 version = "1.2.4"
 
 [project.urls]
-Homepage = "https://github.com/pivoshenko/ihroteka-converter"
-Repository = "https://github.com/pivoshenko/ihroteka-converter"
+Homepage = "https://github.com/pivoshenko/steamify"
+Repository = "https://github.com/pivoshenko/steamify"
 
 [build-system]
 build-backend = "hatchling.build"

@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from importlib.metadata import version
 
-from ihroteka_converter.__main__ import convert
+from steamify.steam import to_steam
 
 
-__version__ = version("ihroteka-converter")
-__all__ = ["convert"]
+__version__ = version("steamify")
+__all__ = ["to_steam"]
