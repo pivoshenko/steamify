@@ -20,38 +20,10 @@
 
 ## Overview
 
-A lightweight package for converting Markdown into Steam-compatible markup, and back again.
+A lightweight package for converting Markdown into Steam-compatible markup, and back again. Zero
+runtime dependencies.
 
-### About the Name
-
-*Steamify* is what the package does: it takes Markdown and makes it Steam-flavoured, and it reads Steam markup back into Markdown. It was extracted from [Ihroteka](https://ihroteka.com), a personal game-library app, and released standalone.
-
-## Features
-
-Zero runtime dependencies, and conversion in both directions.
-
-### Markdown -> Steam
-
-- Headings (`#` to `######`) -> `[h1]` to `[h3]`, since Steam caps at three levels
-- Bold, italic, strikethrough, inline code
-- Links and images -> `[url]` / `[img]`
-- Ordered and unordered lists (nested)
-- Blockquotes (nested)
-- Fenced code blocks -> `[code]`
-- Horizontal rules -> `[hr][/hr]`
-
-### Steam -> Markdown
-
-- `[h1]` to `[h6]` -> `#` to `######`
-- `[b]`, `[i]`, `[strike]`, `[code]` -> `**`, `*`, `~~`, backticks
-- `[url]` / `[img]` -> Markdown links and images
-- `[list]` / `[olist]` (nested) -> `-` / `1.`
-- `[quote]` (nested) -> `>`
-- `[hr][/hr]` -> `---`
-- Steam-only tags such as `[spoiler]`, `[noparse]`, `[table]`, and `[u]` have no Markdown
-  equivalent, so they pass through verbatim rather than being dropped
-
-### Round-tripping
+## Round-tripping
 
 `to_steam(to_markdown(steam))` returns the original markup, so a Steam -> Markdown -> Steam cycle
 is stable. The Markdown side is normalized rather than preserved byte for byte:
@@ -59,6 +31,8 @@ is stable. The Markdown side is normalized rather than preserved byte for byte:
 - `####` and deeper collapse into `[h3]` on the way out, and come back as `###`
 - Image alt text is not carried by `[img]`, so it returns empty
 - A single-line fenced block returns as an inline code span
+- Steam-only tags such as `[spoiler]`, `[noparse]`, `[table]`, and `[u]` have no Markdown
+  equivalent, so they pass through verbatim rather than being dropped
 
 ## Installation
 
