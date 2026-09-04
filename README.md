@@ -20,19 +20,8 @@
 
 ## Overview
 
-A lightweight package for converting Markdown into Steam-compatible markup, and back again. Zero
-runtime dependencies.
-
-## Round-tripping
-
-`to_steam(to_markdown(steam))` returns the original markup, so a Steam -> Markdown -> Steam cycle
-is stable. The Markdown side is normalized rather than preserved byte for byte:
-
-- `####` and deeper collapse into `[h3]` on the way out, and come back as `###`
-- Image alt text is not carried by `[img]`, so it returns empty
-- A single-line fenced block returns as an inline code span
-- Steam-only tags such as `[spoiler]`, `[noparse]`, `[table]`, and `[u]` have no Markdown
-  equivalent, so they pass through verbatim rather than being dropped
+A lightweight package with zero runtime dependencies for converting Markdown into Steam-compatible
+markup, and back again.
 
 ## Installation
 
