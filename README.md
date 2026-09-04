@@ -23,6 +23,29 @@
 A lightweight package with zero runtime dependencies for converting Markdown into Steam-compatible
 markup, and back again.
 
+## Features
+
+### Markdown to Steam
+
+- Headings (`#` through `######`) to `[h1]` through `[h3]`, since Steam caps at three levels
+- Bold, italic, strikethrough, inline code
+- Links and images to `[url]` / `[img]`
+- Ordered and unordered lists (nested)
+- Blockquotes (nested)
+- Fenced code blocks to `[code]`
+- Horizontal rules to `[hr][/hr]`
+
+### Steam to Markdown
+
+- `[h1]` through `[h6]` to `#` through `######`
+- `[b]`, `[i]`, `[strike]`, `[code]` to `**`, `*`, `~~`, backticks
+- `[url]` / `[img]` to Markdown links and images
+- `[list]` / `[olist]` (nested) to `-` / `1.`
+- `[quote]` (nested) to `>`
+- `[hr][/hr]` to `---`
+- Steam-only tags such as `[spoiler]`, `[noparse]`, `[table]`, and `[u]` have no Markdown
+  equivalent, so they pass through verbatim rather than being dropped
+
 ## Installation
 
 Install with pip or uv:
