@@ -2,6 +2,58 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.0] - 2026-09-04
+
+### Build
+
+- Update dependencies
+- Refresh uv.lock
+- **deps**: Update dependencies
+- **deps**: Update dependencies
+- Sync lockfile to 1.2.4
+
+### CI/CD
+
+- Ignore rules newly stabilized in ruff 0.16
+- Drop ruff format --check from lint; suppress more ty rules
+- Use uv run pytest for project venv; format example file
+- Fix action versions and test recipe failures
+- Drop hashFiles guard; move .no-tests sentinel handling into justfile
+- Flatten to one job per language
+- Bump action versions to latest major
+- Standardize workflow to per-language parallel pipelines on ubuntu-24.04-arm
+
+### Documentation
+
+- Document both conversion directions
+- Add pull request template
+- Regenerate CLAUDE.md
+- Document the module docstring convention
+- Normalize module and package docstrings
+- Normalize heading case in readme, contributing, security
+- Strip AI tells and redundant code comments
+- Refresh CLAUDE.md for current justfile + CI shape
+- **ci**: Document required secrets at top of workflow files
+
+### Features
+
+- Add to_markdown for converting Steam markup back to Markdown
+
+### Miscellaneous
+
+- Remove local pull request template
+- **deps**: Update locked dependencies
+- Update dependency lockfile
+- Add editorconfig
+- **justfile**: Use uv lock --upgrade for update, scope pyupgrade to . excluding .venv
+- Standardize justfile recipes and refresh CLAUDE.md
+- Simplify pytest addopts
+- Remove issue templates
+
+### Refactor
+
+- Rename package to steamify and split pipeline by direction
+
 ## [1.2.4] - 2026-05-31
 
 ### Build
@@ -17,6 +69,10 @@ All notable changes to this project will be documented in this file.
 ### Miscellaneous
 
 - Expand gitignore with editors, env, logs
+
+### Release
+
+- V1.2.4
 
 ## [1.2.3] - 2026-05-30
 
