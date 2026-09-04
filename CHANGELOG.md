@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.1] - 2026-09-04
+
+### Build
+
+- Sync lockfile to 2.0.0
+
+### CI/CD
+
+- Publish to pypi via trusted publishing instead of a token
+
+### Documentation
+
+- Restore per-direction feature lists
+- Match package description to the readme overview
+- Tighten readme overview and drop round-tripping section
+- Trim readme to overview, round-tripping, and usage
+
 ## [2.0.0] - 2026-09-04
 
 ### Build
@@ -53,6 +70,10 @@ All notable changes to this project will be documented in this file.
 ### Refactor
 
 - Rename package to steamify and split pipeline by direction
+
+### Release
+
+- V2.0.0
 
 ## [1.2.4] - 2026-05-31
 
