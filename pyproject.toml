@@ -20,7 +20,7 @@ classifiers = [
   "Topic :: Software Development :: Libraries :: Python Modules"
 ]
 dependencies = []
-description = "A lightweight package for converting Markdown into Steam-compatible markup, and back again."
+description = "A lightweight package with zero runtime dependencies for converting Markdown into Steam-compatible markup, and back again."
 keywords = [
   "bbcode",
   "converter",
