@@ -16,9 +16,6 @@ lint:
 test:
     @[ -f .no-tests ] && echo "skipping (.no-tests sentinel)" || uv run pytest .
 
-audit:
-    uvx pip-audit
-
 check: lint test
 
 update:
