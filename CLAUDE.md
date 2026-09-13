@@ -1,75 +1,75 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+`steamify` is a published PyPI library that converts Markdown to Steam's BBCode-style markup and
+back, exposing exactly two public functions, `to_steam` and `to_markdown`. `README.md` lists the
+supported constructs; `CONTRIBUTING.md` covers commands, branches, commits, and CI.
 
-## Project
+## Constraints
 
-`steamify` - a zero-runtime-dependency Python library converting Markdown to Steam-compatible BBCode markup and back. Python >= 3.10, dev pinned to 3.13 (`.python-version`). Built with hatchling, published to PyPI.
+- **Zero runtime dependencies is a product constraint, not an accident.** Everything is built on `re`
+  and the standard library. Do not add a runtime dependency without the maintainer asking for one
+- **`requires-python = ">=3.10"` is the supported floor**, even though `.python-version` pins 3.13
+  for local development and CI. `just format` enforces it by running `pyupgrade --py310-plus`
+- **Run `just check` before proposing a change is done** (`just --list` for the rest). Type checking
+  is `ty`, not mypy
+- **Never hand-edit `version` in `pyproject.toml` or `CHANGELOG.md`.** The Release workflow
+  (`workflow_dispatch` only) derives both from the commit history with git-cliff
+- **`AGENTS.md` is a symlink to this file.** Edit `CLAUDE.md`; writing `AGENTS.md` directly replaces
+  the symlink with a regular file
+- **`.no-tests` is an untracked sentinel that makes `just test` a no-op.** Do not create it unless
+  deliberately silencing the suite
+- Ruff runs `select = ["ALL"]` - assume a new rule will fire and run `just format` before `just lint`
+- `just format` and `just lint` reach ruff and ty through `uvx` (ambient, latest) while `just test`
+  runs through `uv run` (project venv). A ruff version skew between the two is therefore possible and
+  is not a bug to chase
+- Coverage is reported, not gated - there is no `fail_under`, so `term-missing` output blocks nothing
+- `__init__.py` sets `__version__` from `importlib.metadata.version("steamify")`, so the package must
+  be installed (editable is fine) for import to work
 
-The entire public API is two functions:
+## Invariants
 
-```python
-from steamify import to_steam      # to_steam(markdown_text: str) -> str
-from steamify import to_markdown   # to_markdown(steam_text: str) -> str
-```
+`steam.py` (Markdown -> Steam) and `markdown.py` (Steam -> Markdown) are deliberate mirror images of
+each other. When editing one, check whether the other needs the symmetric change.
 
-There is no CLI, no `__main__.py`, no `[project.scripts]` - the package is import-only.
+- **The `_try_convert_*` contract** - each returns `True` if it consumed the line and `False` if it
+  did not apply, and `_process_line` relies on that to short-circuit. Order matters: in `markdown.py`
+  the chain is a single `or` expression, and code-block detection must come first so markup inside a
+  `[code]` block is never interpreted
+- **The `@@CODE{n}@@` sandwich** - inside `_convert_inline_elements`, `_convert_inline_code_spans`
+  pulls every code span out and leaves a sentinel, the other inline conversions run on the
+  sentinel-bearing text, then `_render_inline_code_spans` substitutes the originals back wrapped in
+  the target syntax. This is what stops `**bold**` inside `` `code` `` from being mangled, so any new
+  inline conversion must be inserted **between** the extract and render steps or code spans stop
+  being protected
+- **`list_stack` diverges between the modules** - it is a `list[tuple[str, int]]` in both, but the
+  second element is the source indent width in spaces in `steam.py`, used to decide
+  open/close/dedent, and the running item counter in `markdown.py`, used to number `[olist]` entries
 
-## Commands
+### Deliberate Asymmetries
 
-All workflows go through the `justfile`:
+These look like bugs but are intended; tests lock them in:
 
-```shell
-just install   # uv sync --all-groups --all-extras
-just format    # pyupgrade --py310-plus over all .py, then ruff check --fix, then ruff format
-just lint      # uvx ruff check . && uvx ty check .
-just test      # uv run pytest . (skipped if a .no-tests sentinel file exists)
-just check     # lint + test
-just update    # uv lock --upgrade && uvx uv-upsync
-```
+- `to_steam` clamps headings to h1-h3 because Steam only supports three heading levels, while
+  `to_markdown` maps `[h1]`-`[h6]` to `#`-`######`
+- Steam-only tags with no Markdown equivalent pass through verbatim rather than being stripped - see
+  `test_unmappable_tags_pass_through`
+- The round-trip guarantee is convergence, not identity: `to_steam(to_markdown(steam)) == steam`
+  after the first pass, enforced by `test_round_trip_is_stable`. Markdown -> Steam -> Markdown is not
+  required to return the original string
 
-Note: `format` and `lint` run tools via `uvx` (ephemeral envs); only `test` runs inside the project venv via `uv run`.
+## Adding a New Construct
 
-Single test / subset:
-
-```shell
-uv run pytest tests/test_steam.py::test_to_steam
-uv run pytest -k inline_bold
-uv run pytest --no-cov -x    # bypass coverage configured in addopts
-```
-
-pytest `addopts` always injects `--cov=src --cov-report=term-missing`; coverage omits `*/__init__.py`.
-
-## Architecture
-
-Two mirror-image modules, each named for the format it **produces**:
-
-- `src/steamify/steam.py` - Markdown → Steam pipeline (`to_steam`, `SteamState`)
-- `src/steamify/markdown.py` - Steam → Markdown pipeline (`to_markdown`, `MarkdownState`)
-- `src/steamify/__init__.py` - re-exports both; `__version__` resolved via `importlib.metadata`
-
-Both pipelines share one shape: `to_*()` splits input with `splitlines()`, feeds each line through `_process_line(line, state)`, then `_close_remaining_blocks()` flushes unterminated code blocks/lists/quotes at EOF. Line handlers are `_try_convert_*` predicates returning `True` when they consume the line - **dispatch order in `_process_line` matters** (code block > quotes > lists > heading > hr > plain text). All inline formatting funnels through `_convert_inline_elements()`, which protects code spans first by swapping them for `@@CODE{n}@@` placeholders, converts images/links/bold/italic/strikethrough, then restores spans - so code-span protection ordering is load-bearing.
-
-When changing one direction, check whether the mirror module needs the symmetric change.
-
-Domain asymmetries to keep in mind (see README for the full list):
-
-- Steam caps headings at `[h3]`; Markdown `####`+ collapses to `[h3]` going in, but `[h4]`-`[h6]` map back to `####`-`######`
-- Steam-only tags (`[spoiler]`, `[noparse]`, `[table]`, `[u]`) pass through `to_markdown` verbatim, never dropped
-- List state is a stack of `(type, indent)` tuples in `SteamState` vs `(type, item_counter)` in `MarkdownState`
+1. Add the compiled pattern to the `_PATTERN_*` block at the top of the module, not inline in a
+   function
+2. Block-level: write another `_try_convert_*` and insert it at the right position in the
+   `_process_line` chain, never ahead of code-block detection
+3. Inline: add the conversion between the extract and render halves of `_convert_inline_elements`
+4. Make the symmetric change in the sibling module, or establish why it does not apply
+5. Add cases to the existing `test_complex_scenarios` / `test_edge_cases` parametrize blocks
 
 ## Tests
 
-`tests/test_steam.py` and `tests/test_markdown.py` (no `__init__.py`; `INP001`/`S101` are per-file-ignored). Tests import and exercise private `_`-prefixed functions directly, heavily parametrized - follow that pattern for new handlers.
-
-## Conventions
-
-- Ruff with `select = ["ALL"]`, line length 100, `fix = true` + `unsafe-fixes = true`; isort forces single-line imports, length-sorted, with `from __future__ import annotations` required in every file, two blank lines after imports
-- Typecheck is `ty` (not mypy/pyright)
-- Conventional Commits enforced by cliff.toml (`filter_unconventional = true`): non-conventional commit subjects are silently dropped from the changelog. Branch names follow `<type>/<short-description>` (CONTRIBUTING.md)
-
-## CI and Release
-
-- CI (`.github/workflows/ci.yaml`): runs `just install`, `just lint`, `just test` on ubuntu-24.04-arm with Python 3.13 - all three must pass
-- Release (`.github/workflows/release.yaml`): manual `workflow_dispatch` only. Version is auto-bumped by `git-cliff --bumped-version` from conventional commits (feat → minor, breaking → major) unless overridden via input; the workflow runs `uv version`, regenerates CHANGELOG.md, commits `release: vX.Y.Z`, tags, creates a GitHub release, and publishes to PyPI via `uv publish --trusted-publishing always`
-- `CHANGELOG.md` and the `version` field in pyproject.toml are release-workflow-owned - never edit them by hand
+The suite is **white-box**: private functions are imported directly by name and tested individually,
+alongside end-to-end `to_steam` / `to_markdown` cases. Renaming a private helper breaks tests, which
+is intentional. Heavy use of `@pytest.mark.parametrize` with `(input, expected)` tuples - add cases
+to an existing parametrize list rather than writing a new test function when the shape fits.
