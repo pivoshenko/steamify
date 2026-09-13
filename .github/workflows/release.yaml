@@ -34,7 +34,7 @@ jobs:
         run: echo "$RUNNER_TEMP/git-cliff/bin" >> "$GITHUB_PATH"
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v10
+        uses: astral-sh/setup-uv@v10.1.0
         with:
           python-version: "3.13"
 
@@ -106,7 +106,7 @@ jobs:
           ref: ${{ needs.tag.outputs.tag }}
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v10
+        uses: astral-sh/setup-uv@v10.1.0
         with:
           python-version: "3.13"
 
