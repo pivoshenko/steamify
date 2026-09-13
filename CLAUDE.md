@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-`steamify` — a zero-runtime-dependency Python library converting Markdown to Steam-compatible BBCode markup and back. Python >= 3.10, dev pinned to 3.13 (`.python-version`). Built with hatchling, published to PyPI.
+`steamify` - a zero-runtime-dependency Python library converting Markdown to Steam-compatible BBCode markup and back. Python >= 3.10, dev pinned to 3.13 (`.python-version`). Built with hatchling, published to PyPI.
 
 The entire public API is two functions:
 
@@ -13,7 +13,7 @@ from steamify import to_steam      # to_steam(markdown_text: str) -> str
 from steamify import to_markdown   # to_markdown(steam_text: str) -> str
 ```
 
-There is no CLI, no `__main__.py`, no `[project.scripts]` — the package is import-only.
+There is no CLI, no `__main__.py`, no `[project.scripts]` - the package is import-only.
 
 ## Commands
 
@@ -44,11 +44,11 @@ pytest `addopts` always injects `--cov=src --cov-report=term-missing`; coverage 
 
 Two mirror-image modules, each named for the format it **produces**:
 
-- `src/steamify/steam.py` — Markdown → Steam pipeline (`to_steam`, `SteamState`)
-- `src/steamify/markdown.py` — Steam → Markdown pipeline (`to_markdown`, `MarkdownState`)
-- `src/steamify/__init__.py` — re-exports both; `__version__` resolved via `importlib.metadata`
+- `src/steamify/steam.py` - Markdown → Steam pipeline (`to_steam`, `SteamState`)
+- `src/steamify/markdown.py` - Steam → Markdown pipeline (`to_markdown`, `MarkdownState`)
+- `src/steamify/__init__.py` - re-exports both; `__version__` resolved via `importlib.metadata`
 
-Both pipelines share one shape: `to_*()` splits input with `splitlines()`, feeds each line through `_process_line(line, state)`, then `_close_remaining_blocks()` flushes unterminated code blocks/lists/quotes at EOF. Line handlers are `_try_convert_*` predicates returning `True` when they consume the line — **dispatch order in `_process_line` matters** (code block > quotes > lists > heading > hr > plain text). All inline formatting funnels through `_convert_inline_elements()`, which protects code spans first by swapping them for `@@CODE{n}@@` placeholders, converts images/links/bold/italic/strikethrough, then restores spans — so code-span protection ordering is load-bearing.
+Both pipelines share one shape: `to_*()` splits input with `splitlines()`, feeds each line through `_process_line(line, state)`, then `_close_remaining_blocks()` flushes unterminated code blocks/lists/quotes at EOF. Line handlers are `_try_convert_*` predicates returning `True` when they consume the line - **dispatch order in `_process_line` matters** (code block > quotes > lists > heading > hr > plain text). All inline formatting funnels through `_convert_inline_elements()`, which protects code spans first by swapping them for `@@CODE{n}@@` placeholders, converts images/links/bold/italic/strikethrough, then restores spans - so code-span protection ordering is load-bearing.
 
 When changing one direction, check whether the mirror module needs the symmetric change.
 
@@ -60,7 +60,7 @@ Domain asymmetries to keep in mind (see README for the full list):
 
 ## Tests
 
-`tests/test_steam.py` and `tests/test_markdown.py` (no `__init__.py`; `INP001`/`S101` are per-file-ignored). Tests import and exercise private `_`-prefixed functions directly, heavily parametrized — follow that pattern for new handlers.
+`tests/test_steam.py` and `tests/test_markdown.py` (no `__init__.py`; `INP001`/`S101` are per-file-ignored). Tests import and exercise private `_`-prefixed functions directly, heavily parametrized - follow that pattern for new handlers.
 
 ## Conventions
 
@@ -68,8 +68,8 @@ Domain asymmetries to keep in mind (see README for the full list):
 - Typecheck is `ty` (not mypy/pyright)
 - Conventional Commits enforced by cliff.toml (`filter_unconventional = true`): non-conventional commit subjects are silently dropped from the changelog. Branch names follow `<type>/<short-description>` (CONTRIBUTING.md)
 
-## CI and release
+## CI and Release
 
-- CI (`.github/workflows/ci.yaml`): runs `just install`, `just lint`, `just test` on ubuntu-24.04-arm with Python 3.13 — all three must pass
+- CI (`.github/workflows/ci.yaml`): runs `just install`, `just lint`, `just test` on ubuntu-24.04-arm with Python 3.13 - all three must pass
 - Release (`.github/workflows/release.yaml`): manual `workflow_dispatch` only. Version is auto-bumped by `git-cliff --bumped-version` from conventional commits (feat → minor, breaking → major) unless overridden via input; the workflow runs `uv version`, regenerates CHANGELOG.md, commits `release: vX.Y.Z`, tags, creates a GitHub release, and publishes to PyPI via `uv publish --trusted-publishing always`
-- `CHANGELOG.md` and the `version` field in pyproject.toml are release-workflow-owned — never edit them by hand
+- `CHANGELOG.md` and the `version` field in pyproject.toml are release-workflow-owned - never edit them by hand
