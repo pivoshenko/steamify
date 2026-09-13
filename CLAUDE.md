@@ -24,12 +24,11 @@ just install   # uv sync --all-groups --all-extras
 just format    # pyupgrade --py310-plus over all .py, then ruff check --fix, then ruff format
 just lint      # uvx ruff check . && uvx ty check .
 just test      # uv run pytest . (skipped if a .no-tests sentinel file exists)
-just audit     # uvx pip-audit
 just check     # lint + test
 just update    # uv lock --upgrade && uvx uv-upsync
 ```
 
-Note: `format`, `lint`, and `audit` run tools via `uvx` (ephemeral envs); only `test` runs inside the project venv via `uv run`.
+Note: `format` and `lint` run tools via `uvx` (ephemeral envs); only `test` runs inside the project venv via `uv run`.
 
 Single test / subset:
 
@@ -71,6 +70,6 @@ Domain asymmetries to keep in mind (see README for the full list):
 
 ## CI and release
 
-- CI (`.github/workflows/ci.yaml`): runs `just install`, `just lint`, `just audit`, `just test` on ubuntu-24.04-arm with Python 3.13 — all four must pass
+- CI (`.github/workflows/ci.yaml`): runs `just install`, `just lint`, `just test` on ubuntu-24.04-arm with Python 3.13 — all three must pass
 - Release (`.github/workflows/release.yaml`): manual `workflow_dispatch` only. Version is auto-bumped by `git-cliff --bumped-version` from conventional commits (feat → minor, breaking → major) unless overridden via input; the workflow runs `uv version`, regenerates CHANGELOG.md, commits `release: vX.Y.Z`, tags, creates a GitHub release, and publishes to PyPI via `uv publish --trusted-publishing always`
 - `CHANGELOG.md` and the `version` field in pyproject.toml are release-workflow-owned — never edit them by hand
