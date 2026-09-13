@@ -1,8 +1,20 @@
 # Contributing
 
+- [Contributing](#contributing)
+  - [Reporting Bugs](#reporting-bugs)
+    - [How to Submit a Bug Report](#how-to-submit-a-bug-report)
+  - [Suggesting Enhancements](#suggesting-enhancements)
+    - [How to Submit an Enhancement](#how-to-submit-an-enhancement)
+  - [Code Contributions](#code-contributions)
+    - [Local Development](#local-development)
+    - [CI/CD](#cicd)
+    - [Branches](#branches)
+    - [Commits](#commits)
+    - [Pull Requests](#pull-requests)
+
 Thank you for taking the time to contribute.
 
-These guidelines are intended to make contributions consistent and easy to review across repositories. They are guidance, not hard rules, and maintainers may adapt them when needed.
+These guidelines are intended to make contributions consistent and easy to review across repositories. They are guidance, not hard instructions, and maintainers may adapt them when needed.
 
 ## Reporting Bugs
 
@@ -15,7 +27,7 @@ When opening a bug report, include enough context for someone else to reproduce 
 
 ### How to Submit a Bug Report
 
-Use the bug issue template and provide the following:
+Open a bug report and provide the following:
 
 - A clear, descriptive title
 - Reproduction steps (minimal and reliable if possible)
@@ -34,7 +46,7 @@ Enhancement requests can include new features, changes to existing behavior, usa
 
 ### How to Submit an Enhancement
 
-Use the feature request template and provide the following:
+Open a feature request and provide the following:
 
 - A clear problem statement
 - The proposed solution
@@ -47,14 +59,36 @@ Concrete examples, API sketches, UI mockups, or references are helpful when rele
 
 ### Local Development
 
-1. Fork the repository and create a branch for your change.
-2. Set up the project using the repository's README or development docs.
-3. Run the project's tests and quality checks locally before opening a pull request.
+This repo needs [uv](https://docs.astral.sh/uv), which manages Python 3.13 for you, and `just`.
 
-If the repository has helper scripts or a task runner, use those documented commands.
+This project uses [`just`](https://github.com/casey/just) as its task runner. Run `just --list` for the full set; these are the ones you need day to day:
+
+| Command | What it does |
+| --- | --- |
+| `just install` | Installs every dependency group and extra into the project virtualenv |
+| `just format` | Rewrites the sources in place: modernizes syntax to Python 3.10+ with pyupgrade, then applies ruff's safe fixes and formatting |
+| `just lint` | Lints the project with ruff and type-checks it with ty, without changing any file |
+| `just test` | Runs the test suite, skipped when the `.no-tests` sentinel is present |
+| `just check` | Runs `lint` then `test` in sequence |
+| `just update` | Refreshes the lockfile to the latest resolvable versions, then raises the dependency lower bounds in `pyproject.toml` with uv-upsync |
+
+1. Fork the repository and clone your fork locally
+2. Create a branch using the naming pattern described below
+3. Make your changes, then run `just check` before opening a pull request
 
 > [!IMPORTANT]
 > Behavioral code changes should include or update tests.
+
+### CI/CD
+
+Workflows live in `.github/workflows`:
+
+| Workflow | Trigger | What it does |
+| --- | --- | --- |
+| CI | Push to `main`, pull requests, `workflow_dispatch` | Single `ci` job on `ubuntu-24.04-arm`; installs `just` and uv pinned to Python 3.13, installs the project dependencies, then lints, type-checks and tests the project |
+| Release | `workflow_dispatch` (optional `version` input) | Three chained jobs on `ubuntu-24.04-arm`: `tag` takes the version from the `version` input or derives the next one from the commit history with git-cliff, bumps the project version, regenerates `CHANGELOG.md` and pushes the release commit and its tag to `main`; `release` (needs `tag`) publishes the GitHub Release with the generated notes; `publish` (needs `tag` and `release`) builds the package and uploads it to PyPI via trusted publishing |
+
+CI must be green before a pull request is merged.
 
 ### Branches
 
@@ -70,7 +104,7 @@ docs/update-sync-flow-diagram
 refactor/mcps-schema-alignment
 ```
 
-Split a branch that covers multiple unrelated changes. One concern per branch makes review and bisect much easier.
+A branch covering multiple unrelated changes should be split. One concern per branch makes review and bisect much easier.
 
 ### Commits
 
@@ -78,7 +112,7 @@ Use clear, focused commits with descriptive messages.
 
 This project follows [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
 
-#### Format
+**Format**
 
 ```
 <type>(<scope>): <subject>
@@ -86,12 +120,12 @@ This project follows [Conventional Commits](https://www.conventionalcommits.org/
 [optional body]
 ```
 
-- `type`: one of the prefixes from the table below
-- `scope`: the module, command, or area being changed (e.g. `sync`, `mcps`, `github`, `landing`, `config`); omit when the change is truly cross-cutting
-- `subject`: imperative mood, lowercase, no trailing period, 72 characters or fewer
-- `body`: optional; use it to explain *why*, not *what*; wrap at 72 characters
+- **type** - one of the prefixes from the table below
+- **scope** - the module, command, or area being changed (e.g. `sync`, `mcps`, `github`, `landing`, `config`); omit when the change is truly cross-cutting
+- **subject** - imperative mood, lowercase, no trailing period, 72 characters or fewer
+- **body** - optional; use it to explain *why*, not *what*; wrap at 72 characters
 
-#### Type Prefixes
+**Type prefixes**
 
 | Prefix     | When to use                                                                                             |
 | ---------- | ------------------------------------------------------------------------------------------------------- |
@@ -108,7 +142,7 @@ This project follows [Conventional Commits](https://www.conventionalcommits.org/
 | `design`   | Changes to visual or UI design assets and layout                                                        |
 | `revert`   | Reverts a previous commit (reference the reverted commit hash in the body)                              |
 
-#### Examples
+**Examples**
 
 ```
 feat(sync): support skills source sub-directory selection
