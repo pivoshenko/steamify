@@ -2,7 +2,7 @@ default:
     @just --list
 
 install:
-    uv sync --all-groups --all-extras
+    uv sync --all-groups --all-extras -U
 
 format:
     find . -type f -name '*.py' -not -path '*/.venv/*' | xargs uvx pyupgrade --py310-plus
