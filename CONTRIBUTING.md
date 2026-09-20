@@ -59,7 +59,7 @@ Concrete examples, API sketches, UI mockups, or references are helpful when rele
 
 ### Local Development
 
-This repo needs [uv](https://docs.astral.sh/uv), which manages Python 3.13 for you, and `just`.
+This repo needs [uv](https://docs.astral.sh/uv), which manages Python 3.14 for you, and `just`.
 
 This project uses [`just`](https://github.com/casey/just) as its task runner. Run `just --list` for the full set; these are the ones you need day to day:
 
