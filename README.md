@@ -1,4 +1,7 @@
-# Steamify
+<h1 align="left">
+  <img src="https://raw.githubusercontent.com/pivoshenko/steamify/main/assets/logo.svg" alt="" height="40" align="left" style="vertical-align: middle; margin-right: 12px;">
+  Steamify
+</h1>
 
 <p align="left">
   <a href="https://pypi.org/project/steamify">
