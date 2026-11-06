@@ -27,7 +27,7 @@ _PATTERN_LIST_MARKER = re.compile(r"^\s*([-+*]|\d+\.)\s+")
 
 
 @dataclass
-class SteamState:  # noqa: D101
+class SteamState:
     lines: list[str] = field(default_factory=list)
     list_stack: list[tuple[str, int]] = field(default_factory=list)
     current_quote_level: int = 0
