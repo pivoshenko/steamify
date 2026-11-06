@@ -9,7 +9,7 @@ supported constructs; `CONTRIBUTING.md` covers commands, branches, commits, and 
 - **Zero runtime dependencies is a product constraint, not an accident.** Everything is built on `re`
   and the standard library. Do not add a runtime dependency without the maintainer asking for one
 - **`requires-python = ">=3.10"` is the supported floor**, even though `.python-version` and CI
-  both pin 3.14. `just format` enforces it by running `pyupgrade --py310-plus`
+  both pin 3.14. `just format` enforces it through ruff's pyupgrade rules
 - **Run `just check` before proposing a change is done** (`just --list` for the rest). Type checking
   is `ty`, not mypy
 - **Never hand-edit `version` in `pyproject.toml` or `CHANGELOG.md`.** The Release workflow
