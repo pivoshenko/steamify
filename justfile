@@ -2,15 +2,15 @@ default:
     @just --list
 
 install:
-    uv sync --all-groups --all-extras -U
+    uv sync --all-groups --all-extras
 
 format:
-    uvx ruff check --fix .
-    uvx ruff format .
+    uv run ruff check --fix .
+    uv run ruff format .
 
 lint:
-    uvx ruff check .
-    uvx ty check .
+    uv run ruff check .
+    uv run ty check .
 
 test:
     @[ -f .no-tests ] && echo "skipping (.no-tests sentinel)" || uv run pytest .
