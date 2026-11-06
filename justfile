@@ -19,4 +19,4 @@ check: lint test
 
 update:
     uv lock --upgrade
-    uvx uv-upsync
+    uv run uv-upsync
