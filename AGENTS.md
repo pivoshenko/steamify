@@ -17,9 +17,8 @@ supported constructs; `CONTRIBUTING.md` covers commands, branches, commits, and 
 - **`.no-tests` is an untracked sentinel that makes `just test` a no-op.** Do not create it unless
   deliberately silencing the suite
 - Ruff runs `select = ["ALL"]` - assume a new rule will fire and run `just format` before `just lint`
-- `just format` and `just lint` reach ruff and ty through `uvx` (ambient, latest) while `just test`
-  runs through `uv run` (project venv). A ruff version skew between the two is therefore possible and
-  is not a bug to chase
+- `just format`, `just lint` and `just test` all run through `uv run` (project venv), so the versions
+  pinned in `[dependency-groups]` are the ones that run
 - Coverage is reported, not gated - there is no `fail_under`, so `term-missing` output blocks nothing
 - `__init__.py` sets `__version__` from `importlib.metadata.version("steamify")`, so the package must
   be installed (editable is fine) for import to work
