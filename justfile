@@ -5,7 +5,6 @@ install:
     uv sync --all-groups --all-extras -U
 
 format:
-    find . -type f -name '*.py' -not -path '*/.venv/*' | xargs uvx pyupgrade --py310-plus
     uvx ruff check --fix .
     uvx ruff format .
 
