@@ -1,8 +1,10 @@
 # AGENTS.md
 
 `steamify` is a published PyPI library that converts Markdown to Steam's BBCode-style markup and
-back, exposing exactly two public functions, `to_steam` and `to_markdown`. `README.md` lists the
-supported constructs; `CONTRIBUTING.md` covers commands, branches, commits, and CI.
+back, exposing exactly two public functions, `to_steam` and `to_markdown`. `src/steamify/__main__.py`
+exposes the same pair as the `steamify` console script (also `python -m steamify`), and is I/O only.
+`README.md` lists the supported constructs; `CONTRIBUTING.md` covers commands, branches, commits, and
+CI.
 
 ## Constraints
 
@@ -20,6 +22,10 @@ supported constructs; `CONTRIBUTING.md` covers commands, branches, commits, and 
 - `just format`, `just lint` and `just test` all run through `uv run` (project venv), so the versions
   pinned in `[dependency-groups]` are the ones that run
 - Coverage is reported, not gated - there is no `fail_under`, so `term-missing` output blocks nothing
+- **`__main__.py` is a text-in/text-out shim, not a third pipeline.** Conversion logic belongs in
+  `steam.py` / `markdown.py`; `main(argv=None) -> int` only reads, converts, writes, and returns an
+  exit code. `--encoding` governs the files **and** stdin/stdout, which is why stdin/stdout go
+  through `sys.stdin.buffer` / `sys.stdout.buffer` instead of the text layers
 - `__init__.py` sets `__version__` from `importlib.metadata.version("steamify")`, so the package must
   be installed (editable is fine) for import to work
 
@@ -70,3 +76,6 @@ The suite is **white-box**: private functions are imported directly by name and 
 alongside end-to-end `to_steam` / `to_markdown` cases. Renaming a private helper breaks tests, which
 is intentional. Heavy use of `@pytest.mark.parametrize` with `(input, expected)` tuples - add cases
 to an existing parametrize list rather than writing a new test function when the shape fits.
+
+`tests/test_main.py` covers the CLI by calling `main()` directly rather than spawning subprocesses:
+stdin/stdout, file to file, `--to-markdown`, `--encoding`, and the exit-1 error path.

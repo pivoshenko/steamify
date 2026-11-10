@@ -51,6 +51,7 @@ classifiers = [
 dependencies = []
 urls.Homepage = "https://github.com/pivoshenko/steamify"
 urls.Repository = "https://github.com/pivoshenko/steamify"
+scripts.steamify = "steamify.__main__:main"
 
 [dependency-groups]
 dev = ["ipdb~=0.13.13", "ipython~=9.18.1; python_version>='3.11'", "uv-upsync~=2.4.2"]
