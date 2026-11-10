@@ -118,3 +118,23 @@ print(md_text)
 # - Fixed **crash** on startup
 # - [spoiler]Secret boss[/spoiler] added
 ```
+
+## Command line
+
+The package installs a `steamify` console script alongside the library, and `python -m steamify` does
+the same thing.
+
+```shell
+steamify guide.md -o guide.txt              # Markdown file to Steam file
+steamify guide.md                           # Markdown file to stdout
+steamify --to-markdown guide.txt            # Steam file back to Markdown
+cat guide.md | steamify                     # stdin to stdout
+steamify -e latin-1 guide.md -o guide.txt   # read and write as latin-1
+```
+
+Conventions:
+
+- `-` or an omitted argument means stdin; `-o -` or no `-o` means stdout.
+- The default direction is Markdown to Steam. `--to-markdown` reverses it.
+- `--encoding` applies to files and to stdin/stdout bytes alike, so pipes honor it too.
+- Failures print a single `steamify: <message>` line on stderr and exit with code 1.
