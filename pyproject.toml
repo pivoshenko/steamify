@@ -4,7 +4,7 @@ requires = ["hatchling"]
 
 [project]
 name = "steamify"
-version = "2.0.1"
+version = "2.1.0"
 description = "A lightweight package with zero runtime dependencies for converting Markdown into Steam-compatible markup, and back again."
 readme = "README.md"
 keywords = [

@@ -2,6 +2,55 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.0] - 2026-11-11
+
+### Build
+
+- Standardize the pyproject configuration
+- Standardize just recipes
+- Drop pyupgrade in favor of ruff
+- **deps**: Update dependencies
+- Add python 3.14 classifier
+- Update dependencies
+- Bump local python to 3.14
+- Update dependencies
+
+### CI/CD
+
+- Pin workflow python to 3.14
+- Pin setup-uv to v10.1.0
+- Drop label sync in favor of terraform
+
+### Documentation
+
+- Describe the standardized recipes
+- Describe format without pyupgrade
+- Move agent instructions from CLAUDE.md to AGENTS.md
+- Update python version references to 3.14
+- Add logo to readme
+- Correct python version references
+- Rewrite CLAUDE.md from scratch
+- Regenerate CLAUDE.md and add AGENTS.md
+- Correct release publishing note to trusted publishing
+- **release**: Drop trusted publishing header comments
+
+### Features
+
+- **cli**: Add argparse command-line interface / 新增 argparse 命令行接口
+
+### Miscellaneous
+
+- Drop unused noqa comments
+- **assets**: Drop svg repo attribution comments
+- **assets**: Recolor logo to steam blue
+- **justfile**: Upgrade dependencies on install
+- Repository housekeeping
+- Symlink AGENTS.md to CLAUDE.md
+
+### Refactor
+
+- **justfile**: Standardize recipe names and ordering
+
 ## [2.0.1] - 2026-09-04
 
 ### Build
@@ -18,6 +67,10 @@ All notable changes to this project will be documented in this file.
 - Match package description to the readme overview
 - Tighten readme overview and drop round-tripping section
 - Trim readme to overview, round-tripping, and usage
+
+### Release
+
+- V2.0.1
 
 ## [2.0.0] - 2026-09-04
 
@@ -132,13 +185,13 @@ All notable changes to this project will be documented in this file.
 - Add update command to justfile and CLAUDE.md
 - Update .gitignore and remove .python-version
 
-### Release
-
-- V1.2.2
-
 ### Style
 
 - Format justfile and .editorconfig indentation
+
+### Release
+
+- V1.2.2
 
 ## [1.2.1] - 2026-03-29
 
