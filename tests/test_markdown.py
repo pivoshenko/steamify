@@ -65,6 +65,8 @@ def test_prefix(quote_level: int, expected: str) -> None:
         ("[i]italic[/i]", "*italic*"),
         ("[b][i]bold italic[/i][/b]", "***bold italic***"),
         ("[strike]strike[/strike]", "~~strike~~"),
+        ("[u]underline[/u]", "<u>underline</u>"),
+        ("[spoiler]hidden[/spoiler]", "||hidden||"),
         ("[code]code[/code]", "`code`"),
         ("[url=url]text[/url]", "[text](url)"),
         ("[img]url[/img]", "![](url)"),
@@ -72,8 +74,21 @@ def test_prefix(quote_level: int, expected: str) -> None:
         ("[list]\n[*] item\n[/list]", "- item"),
         ("[olist]\n[*] item\n[/olist]", "1. item"),
         ("[quote]\nquote\n[/quote]", "> quote"),
+        ("[quote]\na\n\nb\n[/quote]", "> a\n>\n> b"),
         ("line1\nline2", "line1\nline2"),
         ("line1\n\nline2", "line1\n\nline2"),
+        (
+            ("[table][tr][th]Name[/th][th]Age[/th][/tr][tr][td]John[/td][td]65[/td][/tr][/table]"),
+            "| Name | Age |\n| --- | --- |\n| John | 65 |",
+        ),
+        (
+            "[table]\n[tr][td]John[/td][td]65[/td][/tr]\n[/table]",
+            "|  |  |\n| --- | --- |\n| John | 65 |",
+        ),
+        (
+            "[list]\n[*] ☑ done\n[*] ☐ todo\n[/list]",
+            "- [x] done\n- [ ] todo",
+        ),
     ],
 )
 def test_to_markdown(steam: str, expected: str) -> None:
@@ -112,11 +127,9 @@ def test_complex_scenarios(steam: str, expected: str) -> None:
 @pytest.mark.parametrize(
     "steam",
     [
-        "[spoiler]hidden[/spoiler]",
         "[noparse]**literal**[/noparse]",
-        "[u]underline[/u]",
-        "[table][tr][th]head[/th][/tr][/table]",
         "[previewyoutube=id][/previewyoutube]",
+        "[quote=author]text[/quote]",
     ],
 )
 def test_unmappable_tags_pass_through(steam: str) -> None:
@@ -158,6 +171,11 @@ def test_edge_cases(steam: str, expected: str) -> None:
         "---",
         "[spoiler]hidden[/spoiler]",
         "# Guide\n\nSome **text**\n\n- item\n\n> quote",
+        "| Name | Age |\n| --- | --- |\n| John | 65 |",
+        "- [x] done\n- [ ] todo",
+        "<u>underline</u> and ||spoiler||",
+        "`` `code` ``",
+        "````markdown\n```python\ncode\n```\n````",
     ],
 )
 def test_round_trip_is_stable(markdown: str) -> None:

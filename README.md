@@ -30,23 +30,30 @@ markup, and back again.
 
 ### Markdown to Steam
 
-- Headings (`#` through `######`) to `[h1]` through `[h3]`, since Steam caps at three levels
-- Bold, italic, strikethrough, inline code
-- Links and images to `[url]` / `[img]`
-- Ordered and unordered lists (nested)
+- Headings (`#` through `######`) to `[h1]` through `[h3]`, since Steam caps at three levels, including
+  Setext (`===` / `---`) headings
+- Bold, italic, strikethrough, underline (`<u>`), inline code, and `||spoiler||` to `[u]` / `[spoiler]`
+- Links and images to `[url]` / `[img]`, including autolinks (`<https://…>`), reference-style links,
+  and images wrapped in links
+- Ordered and unordered lists (nested), with `- [ ]` / `- [x]` task lists rendered as `☐` / `☑`
 - Blockquotes (nested)
-- Fenced code blocks to `[code]`
+- GitHub-flavored pipe tables to `[table]` / `[tr]` / `[th]` / `[td]`
+- Fenced code blocks (three or more backticks, or `~~~`) to `[code]`, preserving shorter fences
+  nested inside a longer one
+- Inline code spans delimited by any number of backticks
 - Horizontal rules to `[hr][/hr]`
 
 ### Steam to Markdown
 
 - `[h1]` through `[h6]` to `#` through `######`
-- `[b]`, `[i]`, `[strike]`, `[code]` to `**`, `*`, `~~`, backticks
+- `[b]`, `[i]`, `[u]`, `[strike]`, `[code]` to `**`, `*`, `<u>`, `~~`, backticks
+- `[spoiler]` to `||…||`
 - `[url]` / `[img]` to Markdown links and images
-- `[list]` / `[olist]` (nested) to `-` / `1.`
+- `[list]` / `[olist]` (nested) to `-` / `1.`, with `☑` / `☐` restored to task-list markers
 - `[quote]` (nested) to `>`
+- `[table]` / `[tr]` / `[th]` / `[td]` to GitHub-flavored pipe tables
 - `[hr][/hr]` to `---`
-- Steam-only tags such as `[spoiler]`, `[noparse]`, `[table]`, and `[u]` have no Markdown
+- Steam-only tags such as `[noparse]`, `[quote=author]`, and `[previewyoutube]` have no Markdown
   equivalent, so they pass through verbatim rather than being dropped
 
 ## Installation

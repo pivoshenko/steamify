@@ -20,9 +20,13 @@ from steamify.steam import _convert_inline_strikethrough
 from steamify.steam import _convert_list_dedent
 from steamify.steam import _convert_list_same_level
 from steamify.steam import _convert_quote_level
+from steamify.steam import _convert_task_checkbox
 from steamify.steam import _extract_quotes
+from steamify.steam import _extract_reference_definitions
+from steamify.steam import _is_table_start
 from steamify.steam import _process_line
 from steamify.steam import _render_inline_code_spans
+from steamify.steam import _split_table_row
 from steamify.steam import _try_convert_heading
 from steamify.steam import _try_convert_horizontal_rule
 from steamify.steam import _try_convert_list_item
@@ -99,6 +103,7 @@ def test_build(lines: list[str], expected_lines: str) -> None:
         ("## Heading 2", "[h2]Heading 2[/h2]"),
         ("### Heading 3", "[h3]Heading 3[/h3]"),
         ("#### Heading 4", "[h3]Heading 4[/h3]"),
+        ("## Heading 2 ##", "[h2]Heading 2[/h2]"),
         ("**bold**", "[b]bold[/b]"),
         ("__bold__", "[b]bold[/b]"),
         ("*italic*", "[i]italic[/i]"),
@@ -119,6 +124,56 @@ def test_build(lines: list[str], expected_lines: str) -> None:
         ("> quote", "[quote]\nquote\n[/quote]"),
         ("line1\nline2", "line1\nline2"),
         ("line1\n\nline2", "line1\n\nline2"),
+        (
+            "| Name | Age |\n| --- | --- |\n| John | 65 |",
+            (
+                "[table]\n[tr][th]Name[/th][th]Age[/th][/tr]\n"
+                "[tr][td]John[/td][td]65[/td][/tr]\n[/table]"
+            ),
+        ),
+        (
+            "| **Name** | `a|b` |\n| --- | --- |\n| John | 65 |",
+            (
+                "[table]\n[tr][th][b]Name[/b][/th][th][code]a|b[/code][/th][/tr]\n"
+                "[tr][td]John[/td][td]65[/td][/tr]\n[/table]"
+            ),
+        ),
+        (
+            "| A | B |\n| :--- | ---: |\n| 1 | 2 |",
+            ("[table]\n[tr][th]A[/th][th]B[/th][/tr]\n[tr][td]1[/td][td]2[/td][/tr]\n[/table]"),
+        ),
+        (
+            "| A | B |\n| --- | --- |\n| 1 \\| 2 | 3 |",
+            ("[table]\n[tr][th]A[/th][th]B[/th][/tr]\n[tr][td]1 | 2[/td][td]3[/td][/tr]\n[/table]"),
+        ),
+        ("<https://example.com>", "[url=https://example.com]https://example.com[/url]"),
+        ("<user@example.com>", "[url=mailto:user@example.com]user@example.com[/url]"),
+        (
+            "[text](<https://example.com>)",
+            "[url=https://example.com]text[/url]",
+        ),
+        (
+            "![alt](<https://example.com/image.png>)",
+            "[img]https://example.com/image.png[/img]",
+        ),
+        (
+            "[text][ref]\n[ref]: https://example.com",
+            "[url=https://example.com]text[/url]",
+        ),
+        (
+            "![alt][ref]\n[ref]: https://example.com/image.png",
+            "[img]https://example.com/image.png[/img]",
+        ),
+        (
+            "[![alt](image.png)](https://example.com)",
+            "[url=https://example.com][img]image.png[/img][/url]",
+        ),
+        ("- [x] done\n- [ ] todo", "[list]\n[*] ☑ done\n[*] ☐ todo\n[/list]"),
+        ("`` `code` ``", "[code]`code`[/code]"),
+        ("Title\n=====", "[h1]Title[/h1]"),
+        ("Subtitle\n-----", "[h2]Subtitle[/h2]"),
+        ("<u>underline</u>", "[u]underline[/u]"),
+        ("||spoiler||", "[spoiler]spoiler[/spoiler]"),
     ],
 )
 def test_to_steam(markdown: str, expected: str) -> None:
@@ -449,9 +504,12 @@ def test_convert_code_block_content_inside_block() -> None:
 
 
 def test_convert_code_block_content_closing() -> None:
-    state = SteamState()
-    state.inside_code_block = True
-    state.code_block_accumulator = ["line1", "line2"]
+    state = SteamState(
+        inside_code_block=True,
+        code_fence_char="`",
+        code_fence_length=3,
+        code_block_accumulator=["line1", "line2"],
+    )
     _convert_code_block_content("```", state)
     assert not state.inside_code_block
     assert state.code_block_accumulator == []
@@ -546,3 +604,97 @@ def test_complex_scenarios(markdown: str, expected: str) -> None:
 def test_edge_cases(markdown: str, expected: str) -> None:
     result = to_steam(markdown)
     assert result == expected
+
+
+@pytest.mark.parametrize(
+    ("line", "expected"),
+    [
+        ("| a | b |", ["a", "b"]),
+        ("a | b", ["a", "b"]),
+        ("| a | b", ["a", "b"]),
+        ("| `a|b` | c |", ["`a|b`", "c"]),
+        ("| a \\| b | c |", ["a \\| b", "c"]),
+        ("|  |  |", ["", ""]),
+    ],
+)
+def test_split_table_row(line: str, expected: list[str]) -> None:
+    assert _split_table_row(line) == expected
+
+
+@pytest.mark.parametrize(
+    ("header", "separator", "expected"),
+    [
+        ("| a | b |", "| --- | --- |", True),
+        ("a | b", "--- | ---", True),
+        ("| a |", "| --- |", True),
+        ("| a | b |", "| :---: | ---: |", True),
+        ("| a | b |", "| --- |", False),
+        ("plain", "---", False),
+        ("# heading | x", "--- | ---", False),
+    ],
+)
+def test_is_table_start(header: str, separator: str, expected: bool) -> None:  # noqa: FBT001
+    assert _is_table_start(header, separator) is expected
+
+
+@pytest.mark.parametrize(
+    ("item_text", "expected"),
+    [
+        ("[x] done", "☑ done"),
+        ("[X] done", "☑ done"),
+        ("[ ] todo", "☐ todo"),
+        ("plain", "plain"),
+    ],
+)
+def test_convert_task_checkbox(item_text: str, expected: str) -> None:
+    assert _convert_task_checkbox(item_text) == expected
+
+
+def test_extract_reference_definitions_skips_code_blocks() -> None:
+    markdown: str = "[ref]: https://example.com\n```\n[inside]: https://inside\n```\n[text][ref]"
+    references, lines = _extract_reference_definitions(markdown.splitlines())
+    assert references == {"ref": "https://example.com"}
+    assert "[inside]: https://inside" in lines
+
+
+@pytest.mark.parametrize(
+    ("text", "expected_text", "expected_spans"),
+    [
+        ("`` `code` ``", "@@CODE0@@", ["`code`"]),
+        ("``a ` b``", "@@CODE0@@", ["a ` b"]),
+        ("`a` and ``b ` c``", "@@CODE0@@ and @@CODE1@@", ["a", "b ` c"]),
+        ("``unclosed", "``unclosed", []),
+    ],
+)
+def test_convert_inline_code_spans_with_multiple_backticks(
+    text: str,
+    expected_text: str,
+    expected_spans: list[str],
+) -> None:
+    result_text, result_spans = _convert_inline_code_spans(text)
+    assert result_text == expected_text
+    assert result_spans == expected_spans
+
+
+def test_nested_fence_is_kept_inside_outer_code_block() -> None:
+    markdown = "````markdown\n```python\ncode\n```\n````"
+    assert to_steam(markdown) == "[code]```python\ncode\n```[/code]"
+
+
+def test_tilde_fence() -> None:
+    assert to_steam("~~~\ncode\n~~~") == "[code]code[/code]"
+
+
+def test_table_stops_at_blank_line() -> None:
+    markdown = "| a | b |\n| --- | --- |\n| 1 | 2 |\n\nafter"
+    assert to_steam(markdown) == (
+        "[table]\n[tr][th]a[/th][th]b[/th][/tr]\n[tr][td]1[/td][td]2[/td][/tr]\n[/table]\n\nafter"
+    )
+
+
+def test_table_inside_quote() -> None:
+    markdown = "> | a | b |\n> | --- | --- |\n> | 1 | 2 |"
+    assert to_steam(markdown) == (
+        "[quote]\n[table]\n[tr][th]a[/th][th]b[/th][/tr]\n"
+        "[tr][td]1[/td][td]2[/td][/tr]\n[/table]\n[/quote]"
+    )
