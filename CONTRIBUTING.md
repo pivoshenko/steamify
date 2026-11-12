@@ -68,6 +68,7 @@ This project uses [`just`](https://github.com/casey/just) as its task runner. Ru
 | `just install` | Installs every dependency group and extra into the project virtualenv |
 | `just format` | Rewrites the sources in place: applies ruff's safe fixes, including its pyupgrade rules for Python 3.10+, and formatting |
 | `just lint` | Lints the project with ruff and type-checks it with ty, without changing any file |
+| `just audit` | Checks the dependencies for known vulnerabilities (uv) |
 | `just test` | Runs the test suite, skipped when the `.no-tests` sentinel is present |
 | `just check` | Runs `lint` then `test` in sequence |
 | `just update` | Refreshes the lockfile to the latest resolvable versions, then raises the dependency lower bounds in `pyproject.toml` with uv-upsync |
