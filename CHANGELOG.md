@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.2.0] - 2026-11-13
+
+### Build
+
+- **deps**: Sync uv.lock with pyproject.toml
+- **justfile**: Add an audit recipe for known dependency vulnerabilities
+
+### Features
+
+- **parser**: Support tables and extended Markdown constructs / 支持表格及更多 Markdown 语法
+
 ## [2.1.0] - 2026-11-11
 
 ### Build
@@ -50,6 +61,10 @@ All notable changes to this project will be documented in this file.
 ### Refactor
 
 - **justfile**: Standardize recipe names and ordering
+
+### Release
+
+- V2.1.0
 
 ## [2.0.1] - 2026-09-04
 
