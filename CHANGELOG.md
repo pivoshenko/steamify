@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.2.1] - 2026-11-20
+
+### Build
+
+- **justfile**: Split recipes into package parts
+- **deps**: Upgrade python dependencies
+
+### CI/CD
+
+- Fold audit into ci and standardize the release
+
 ## [2.2.0] - 2026-11-13
 
 ### Build
@@ -12,6 +23,10 @@ All notable changes to this project will be documented in this file.
 ### Features
 
 - **parser**: Support tables and extended Markdown constructs / 支持表格及更多 Markdown 语法
+
+### Release
+
+- V2.2.0
 
 ## [2.1.0] - 2026-11-11
 
