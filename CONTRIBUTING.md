@@ -65,13 +65,19 @@ This project uses [`just`](https://github.com/casey/just) as its task runner. Ru
 
 | Command | What it does |
 | --- | --- |
-| `just install` | Installs every dependency group and extra into the project virtualenv |
-| `just format` | Rewrites the sources in place: applies ruff's safe fixes, including its pyupgrade rules for Python 3.10+, and formatting |
-| `just lint` | Lints the project with ruff and type-checks it with ty, without changing any file |
-| `just audit` | Checks the dependencies for known vulnerabilities (uv) |
-| `just test` | Runs the test suite, skipped when the `.no-tests` sentinel is present |
+| `just install` | Runs `install-package` |
+| `just install-package` | Installs every dependency group and extra into the project virtualenv |
+| `just format` | Runs `format-package` |
+| `just format-package` | Rewrites the sources in place: applies ruff's safe fixes, including its pyupgrade rules for Python 3.10+, and formatting |
+| `just lint` | Runs `lint-package` |
+| `just lint-package` | Lints the project with ruff and type-checks it with ty, without changing any file |
+| `just audit` | Runs `audit-package` |
+| `just audit-package` | Checks the dependencies for known vulnerabilities (uv) |
+| `just test` | Runs `test-package` |
+| `just test-package` | Runs the test suite, skipped when the `.no-tests` sentinel is present |
 | `just check` | Runs `lint` then `test` in sequence |
-| `just update` | Refreshes the lockfile to the latest resolvable versions, then raises the dependency lower bounds in `pyproject.toml` with uv-upsync |
+| `just update` | Runs `update-package` |
+| `just update-package` | Refreshes the lockfile to the latest resolvable versions, then raises the dependency lower bounds in `pyproject.toml` with uv-upsync |
 
 1. Fork the repository and clone your fork locally
 2. Create a branch using the naming pattern described below
@@ -86,8 +92,8 @@ Workflows live in `.github/workflows`:
 
 | Workflow | Trigger | What it does |
 | --- | --- | --- |
-| CI | Push to `main`, pull requests, `workflow_dispatch` | Single `ci` job on `ubuntu-24.04-arm`; installs `just` and uv pinned to Python 3.14, installs the project dependencies, then lints, type-checks and tests the project |
-| Release | `workflow_dispatch` (optional `version` input) | Three chained jobs on `ubuntu-24.04-arm`: `tag` takes the version from the `version` input or derives the next one from the commit history with git-cliff, bumps the project version, regenerates `CHANGELOG.md` and pushes the release commit and its tag to `main`; `release` (needs `tag`) publishes the GitHub Release with the generated notes; `publish` (needs `tag` and `release`) builds the package and uploads it to PyPI via trusted publishing |
+| CI | Push to `main`, pull requests, `workflow_dispatch` | One job on `ubuntu-24.04-arm`: `ci-package` installs `just` and uv pinned to Python 3.14, installs the project dependencies, then lints the project, audits the locked dependencies, type-checks and tests it through the `*-package` recipes |
+| Release | `workflow_dispatch` (optional `version` input) | Three chained jobs on `ubuntu-24.04-arm`: `tag` takes the version from the `version` input (must be `MAJOR.MINOR.PATCH`) or derives the next one from the commit history with git-cliff, bumps the project version, regenerates `CHANGELOG.md` and pushes the release commit and its tag to `main`, then uploads the release notes as the `notes` artifact; `release` (needs `tag`) publishes the GitHub Release with those notes; `publish-pypi` (needs `tag` and `release`) builds the package and uploads it to PyPI via trusted publishing |
 
 CI must be green before a pull request is merged.
 
